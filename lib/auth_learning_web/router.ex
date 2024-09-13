@@ -1,6 +1,8 @@
 defmodule AuthLearningWeb.Router do
   use AuthLearningWeb, :router
 
+  import AuthLearningWeb.UserAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule AuthLearningWeb.Router do
     plug :put_root_layout, html: {AuthLearningWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
@@ -15,9 +18,17 @@ defmodule AuthLearningWeb.Router do
   end
 
   scope "/", AuthLearningWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_user]
 
     get "/", PageController, :home
+  end
+
+  # Authentication
+
+  scope "/", AuthLearningWeb do
+    pipe_through :browser
+
+    get "/user/log_in", UserLogInController, :new
   end
 
   # Other scopes may use custom stacks.
