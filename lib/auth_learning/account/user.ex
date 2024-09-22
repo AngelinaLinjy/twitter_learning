@@ -2,7 +2,7 @@ defmodule AuthLearning.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias AuthLearning.Account.UserTokens
+  alias AuthLearning.Account.UserToken
 
   @required_fields [:name, :email, :password]
 
@@ -10,7 +10,7 @@ defmodule AuthLearning.Account.User do
     field :name, :string
     field :email, :string
     field :password, :string
-    has_many :user_tokens, UserTokens, foreign_key: :user_token_id, references: :id
+    has_many :user_tokens, UserToken, foreign_key: :user_token_id, references: :id
 
     timestamps(type: :utc_datetime)
   end

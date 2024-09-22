@@ -29,6 +29,7 @@ defmodule AuthLearningWeb.Router do
     pipe_through :browser
 
     get "/user/log_in", UserLogInController, :new
+    post "/user/log_in", UserLogInController, :log_in
   end
 
   # Other scopes may use custom stacks.
