@@ -30,6 +30,9 @@ defmodule AuthLearningWeb.Router do
 
     get "/user/log_in", UserLogInController, :new
     post "/user/log_in", UserLogInController, :log_in
+
+    get "user/registration", UserRegistrationController, :index
+    post "user/registration", UserRegistrationController, :create
   end
 
   # Other scopes may use custom stacks.

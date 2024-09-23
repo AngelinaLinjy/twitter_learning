@@ -9,4 +9,10 @@ defmodule AuthLearning.UserAccount do
     |> where(email: ^email, password: ^password)
     |> Repo.one()
   end
+
+  def registrate_user(attrs) do
+    %User{}
+    |> User.changeset(attrs)
+    |> Repo.insert()
+  end
 end
