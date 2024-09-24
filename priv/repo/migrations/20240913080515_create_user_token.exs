@@ -3,7 +3,7 @@ defmodule AuthLearning.Repo.Migrations.CreateUserToken do
 
   def change do
     create table(:user_tokens) do
-      add :token, :string
+      add :token, :binary
       add :context, :string
       timestamps(type: :utc_datetime)
     end

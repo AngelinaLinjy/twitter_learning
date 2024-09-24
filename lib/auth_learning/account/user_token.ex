@@ -7,7 +7,7 @@ defmodule AuthLearning.Account.UserToken do
   @required_fields [:token, :context]
 
   schema "user_tokens" do
-    field :token, :string
+    field :token, :binary
     field :context, :string
     belongs_to :user, User, foreign_key: :user_id, references: :id
 
@@ -20,5 +20,6 @@ defmodule AuthLearning.Account.UserToken do
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
     |> unique_constraint([:token])
+    |> unique_constraint([:user_id, :context])
   end
 end

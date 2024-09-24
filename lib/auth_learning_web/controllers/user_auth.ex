@@ -1,15 +1,17 @@
 defmodule AuthLearningWeb.UserAuth do
   use AuthLearningWeb, :controller
 
+  alias AuthLearning.UserAccount
+
   import Plug.Conn
 
   def fetch_current_user(conn, _opts) do
     token = get_session(conn, :user_token)
 
-    case get_user_by_session_token(token) do
-      {:ok, user} ->
+    case UserAccount.get_user_by_session_token(token) do
+      %AuthLearning.Account.User{} = user ->
         conn
-        |> assign(:current_user, user)
+        |> assign(:current_user, user.email)
 
       _ ->
         conn
@@ -28,10 +30,5 @@ defmodule AuthLearningWeb.UserAuth do
       _user ->
         conn
     end
-  end
-
-  defp get_user_by_session_token(_token) do
-    # {:ok, "admin@angelina.com"}
-    {:error, "error"}
   end
 end
