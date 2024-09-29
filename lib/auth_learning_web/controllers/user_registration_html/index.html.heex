@@ -1,0 +1,19 @@
+<div class="mx-auto max-w-sm">
+  <.header>
+    Registration
+  </.header>
+
+  <.simple_form :let={f} for={@conn.params["user"]} as={:user} action="/user/registration">
+    <%!-- <.error :if={@error_message}><%= @error_message %></.error> --%>
+
+    <.input field={f[:name]} type="text" label="Name" required />
+    <.input field={f[:email]} type="email" label="Email" required />
+    <.input field={f[:password]} type="password" label="Password" required />
+
+    <:actions>
+      <.button phx-disable-with="Registrating" class="w-full">
+        Confirm<span aria-hidden="true">→</span>
+      </.button>
+    </:actions>
+  </.simple_form>
+</div>
