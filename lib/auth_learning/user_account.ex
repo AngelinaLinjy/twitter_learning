@@ -7,8 +7,10 @@ defmodule AuthLearning.UserAccount do
 
   @rand_size 32
   @log_in_session_token "log_in_session_token"
+  @reset_password_token "reset_password_token"
   @log_in_session_token_expired_days 1
 
+  # Account User
   def get_user_by_email_and_password(email, password) do
     User
     |> where(email: ^email, password: ^password)
@@ -21,13 +23,33 @@ defmodule AuthLearning.UserAccount do
     |> Repo.insert()
   end
 
-  def gen_log_in_session_token(user_id) do
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
+  def update(user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def get_user(user_id) do
+  end
+
+  # User Token
+  def gen_log_in_session_token(user) do
+    generate_user_token(user, @log_in_session_token)
+  end
+
+  def gen_reset_password_token(user) do
+    generate_user_token(user, @reset_password_token)
+  end
+
+  def generate_user_token(user, context) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    user = Repo.get(User, user_id)
+    user_token = %UserToken{token: token, context: context, user_id: user.id}
 
-    token = %UserToken{token: token, context: @log_in_session_token, user_id: user.id}
-
-    token
+    user_token
     |> Repo.insert(
       conflict_target: [:context, :user_id],
       on_conflict: {:replace, [:token, :inserted_at, :updated_at]}
@@ -55,15 +77,5 @@ defmodule AuthLearning.UserAccount do
 
   def get_user_by_token(token) do
     Repo.get(User, token.user_id)
-  end
-
-  def get_user_by_email(email) do
-    Repo.get_by(User, email: email)
-  end
-
-  def update(user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
   end
 end
