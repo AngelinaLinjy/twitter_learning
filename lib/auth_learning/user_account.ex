@@ -56,4 +56,14 @@ defmodule AuthLearning.UserAccount do
   def get_user_by_token(token) do
     Repo.get(User, token.user_id)
   end
+
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
+  def update(user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
 end
