@@ -31,6 +31,9 @@ defmodule AuthLearningWeb.Router do
     get "/user/log_in", UserLogInController, :new
     post "/user/log_in", UserLogInController, :log_in
 
+    get "/user/reset_password", UserResetPasswordController, :new
+    post "/user/reset_password", UserResetPasswordController, :create
+
     get "user/registration", UserRegistrationController, :index
     post "user/registration", UserRegistrationController, :create
   end

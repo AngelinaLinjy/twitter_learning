@@ -1,0 +1,26 @@
+<div class="mx-auto max-w-sm">
+  <.simple_form :let={f} for={@conn.params["user"]} as={:user} action={~p"/user/reset_password"}>
+    <.input field={f[:email]} type="email" label="Email" required />
+    <.input field={f[:password]} type="password" label="Password" required />
+    <.input
+      field={f[:password_confirmation]}
+      type="password"
+      label="Password Confirmation"
+      required
+    />
+
+    <:actions>
+      <.button phx-disable-with="Logging in..." class="w-full">
+        Reset Password <span aria-hidden="true">→</span>
+      </.button>
+    </:actions>
+  </.simple_form>
+
+  <.link navigate="/users/log_in" class="text-sm font-semibold">
+    Log in
+  </.link>
+
+  <.link navigate="/user/registration" class="text-sm font-semibold">
+    registration
+  </.link>
+</div>
