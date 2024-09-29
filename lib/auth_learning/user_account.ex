@@ -7,6 +7,7 @@ defmodule AuthLearning.UserAccount do
 
   @rand_size 32
   @log_in_session_token "log_in_session_token"
+  @log_in_session_token_expired_days 1
 
   def get_user_by_email_and_password(email, password) do
     User
@@ -27,15 +28,32 @@ defmodule AuthLearning.UserAccount do
     token = %UserToken{token: token, context: @log_in_session_token, user_id: user.id}
 
     token
-    |> Repo.insert(conflict_target: [:context, :user_id], on_conflict: {:replace, [:token]})
+    |> Repo.insert(
+      conflict_target: [:context, :user_id],
+      on_conflict: {:replace, [:token, :inserted_at, :updated_at]}
+    )
   end
 
-  def get_user_by_session_token(token) do
+  def verify_user_by_session_token(nil), do: nil
+
+  def verify_user_by_session_token(token) do
     token =
-      UserToken
-      |> where([t], t.token == ^token)
+      from(t in UserToken,
+        where:
+          t.token == ^token and
+            t.context ==
+              @log_in_session_token and
+            t.inserted_at > ago(@log_in_session_token_expired_days, "day"),
+        select: t
+      )
       |> Repo.one()
 
-    user = Repo.get(User, token.user_id)
+    get_user_by_token(token)
+  end
+
+  def get_user_by_token(nil), do: nil
+
+  def get_user_by_token(token) do
+    Repo.get(User, token.user_id)
   end
 end

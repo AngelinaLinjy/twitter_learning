@@ -8,16 +8,14 @@ defmodule AuthLearningWeb.UserAuth do
   def fetch_current_user(conn, _opts) do
     token = get_session(conn, :user_token)
 
-    case UserAccount.get_user_by_session_token(token) do
-      %AuthLearning.Account.User{} = user ->
-        conn
-        |> assign(:current_user, user.email)
-
-      _ ->
+    case UserAccount.verify_user_by_session_token(token) do
+      nil ->
         conn
         |> assign(:current_user, nil)
 
-        # |> maybe_store_return_to()
+      %AuthLearning.Account.User{} = user ->
+        conn
+        |> assign(:current_user, user.email)
     end
   end
 
@@ -25,6 +23,7 @@ defmodule AuthLearningWeb.UserAuth do
     case conn.assigns[:current_user] do
       nil ->
         conn
+        |> put_flash(:error, "Your log in token expired. Please re-log in.")
         |> redirect(to: "/user/log_in")
 
       _user ->
