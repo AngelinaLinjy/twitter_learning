@@ -4,11 +4,13 @@ defmodule AuthLearning.UserAccount do
   alias AuthLearning.Account.UserToken
 
   import Ecto.Query
+  import Ecto
+  import Ecto.Changeset
 
   @rand_size 32
   @log_in_session_token "log_in_session_token"
   @reset_password_token "reset_password_token"
-  @log_in_session_token_expired_days 1
+  @token_expired_day 1
 
   # Account User
   def get_user_by_email_and_password(email, password) do
@@ -34,6 +36,13 @@ defmodule AuthLearning.UserAccount do
   end
 
   def get_user(user_id) do
+    Repo.get(User, user_id)
+  end
+
+  def get_user_by_token(nil), do: nil
+
+  def get_user_by_token(token) do
+    Repo.get(User, token.user_id)
   end
 
   # User Token
@@ -47,13 +56,12 @@ defmodule AuthLearning.UserAccount do
 
   def generate_user_token(user, context) do
     token = :crypto.strong_rand_bytes(@rand_size)
-    user_token = %UserToken{token: token, context: context, user_id: user.id}
+    user_token = %{token: token, context: context, user_id: user.id}
 
-    user_token
-    |> Repo.insert(
-      conflict_target: [:context, :user_id],
-      on_conflict: {:replace, [:token, :inserted_at, :updated_at]}
-    )
+    user
+    |> build_assoc(:user_tokens)
+    |> cast(user_token, [:token, :context])
+    |> Repo.insert_or_update()
   end
 
   def verify_user_by_session_token(nil), do: nil
@@ -65,7 +73,7 @@ defmodule AuthLearning.UserAccount do
           t.token == ^token and
             t.context ==
               @log_in_session_token and
-            t.inserted_at > ago(@log_in_session_token_expired_days, "day"),
+            t.inserted_at > ago(@token_expired_day, "day"),
         select: t
       )
       |> Repo.one()
@@ -73,9 +81,18 @@ defmodule AuthLearning.UserAccount do
     get_user_by_token(token)
   end
 
-  def get_user_by_token(nil), do: nil
+  def verify_user_by_reset_token(token) do
+    token =
+      from(t in UserToken,
+        where:
+          t.token == ^token and
+            t.context ==
+              @reset_password_token and
+            t.inserted_at > ago(@token_expired_day, "day"),
+        select: t
+      )
+      |> Repo.one()
 
-  def get_user_by_token(token) do
-    Repo.get(User, token.user_id)
+    get_user_by_token(token)
   end
 end

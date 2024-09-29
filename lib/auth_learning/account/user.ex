@@ -10,7 +10,7 @@ defmodule AuthLearning.Account.User do
     field :name, :string
     field :email, :string
     field :password, :string
-    has_many :user_tokens, UserToken, foreign_key: :user_token_id, references: :id
+    has_many :user_tokens, UserToken
 
     timestamps(type: :utc_datetime)
   end

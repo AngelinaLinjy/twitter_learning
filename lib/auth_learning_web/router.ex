@@ -33,6 +33,7 @@ defmodule AuthLearningWeb.Router do
 
     get "/user/reset_password", UserResetPasswordController, :new
     post "/user/reset_password", UserResetPasswordController, :create
+
     get "/user/reset_password/:token", UserResetPasswordController, :verify
 
     get "/user/forget_password", UserForgetPasswordController, :new

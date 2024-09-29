@@ -11,7 +11,7 @@ defmodule AuthLearningWeb.UserLogInController do
   def log_in(conn, %{"user" => %{"email" => email, "password" => password}} = _params) do
     with user when not is_nil(user) <-
            UserAccount.get_user_by_email_and_password(email, password),
-         {:ok, %UserToken{token: token}} <- UserAccount.gen_log_in_session_token(user.id) do
+         {:ok, %UserToken{token: token}} <- UserAccount.gen_log_in_session_token(user) do
       conn
       |> put_flash(:info, "Welcome back!")
       |> put_session(:user_token, token)

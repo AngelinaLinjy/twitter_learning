@@ -38,6 +38,22 @@ defmodule AuthLearningWeb.UserResetPasswordController do
     end
   end
 
+  def verify(conn, %{"token" => token} = params) do
+    {:ok, decoded_token} = Base.url_decode64(token, padding: false)
+
+    case UserAccount.verify_user_by_reset_token(decoded_token) do
+      user ->
+        conn
+        |> put_flash(:info, "Hi, #{user.name}, please reset password.")
+        |> redirect(to: "/user/reset_password")
+
+      _ ->
+        conn
+        |> put_flash(:error, "Something wrong with verify reset token!")
+        |> redirect(to: "/")
+    end
+  end
+
   defp validate(password, confirmation) do
     password == confirmation || {:error, "Passwords do not match。"}
   end
