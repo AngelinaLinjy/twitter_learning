@@ -99,6 +99,8 @@ defmodule AuthLearning.Twitters do
 
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
-    Post.changeset(post, attrs)
+    post
+    |> Repo.preload(:user)
+    |> Post.changeset(attrs)
   end
 end

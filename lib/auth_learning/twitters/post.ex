@@ -4,7 +4,7 @@ defmodule AuthLearning.Twitters.Post do
 
   alias AuthLearning.Account.User
 
-  @required_fields [:subject, :body, :user]
+  @required_fields [:subject, :body]
 
   schema "posts" do
     field :body, :string
@@ -18,6 +18,7 @@ defmodule AuthLearning.Twitters.Post do
   def changeset(post, attrs) do
     post
     |> cast(attrs, @required_fields)
-    |> validate_required(@required_fields)
+    |> cast_assoc(:user)
+    |> validate_required(@required_fields ++ [:user])
   end
 end
