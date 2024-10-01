@@ -3,6 +3,7 @@ defmodule AuthLearning.Account.User do
   import Ecto.Changeset
 
   alias AuthLearning.Account.UserToken
+  alias AuthLearning.Twitters.Post
 
   @required_fields [:name, :email, :password]
 
@@ -10,7 +11,8 @@ defmodule AuthLearning.Account.User do
     field :name, :string
     field :email, :string
     field :password, :string
-    has_many :user_tokens, UserToken, foreign_key: :user_token_id, references: :id
+    has_many :user_tokens, UserToken
+    has_many :posts, Post
 
     timestamps(type: :utc_datetime)
   end

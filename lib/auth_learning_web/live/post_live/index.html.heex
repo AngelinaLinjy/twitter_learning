@@ -14,6 +14,8 @@
 >
   <:col :let={{_id, post}} label="Subject"><%= post.subject %></:col>
   <:col :let={{_id, post}} label="Body"><%= post.body %></:col>
+  <:col :let={{_id, post}} label="User"><%= post.user.name %></:col>
+
   <:action :let={{_id, post}}>
     <div class="sr-only">
       <.link navigate={~p"/posts/#{post}"}>Show</.link>
