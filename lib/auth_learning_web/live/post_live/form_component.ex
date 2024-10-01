@@ -2,6 +2,7 @@ defmodule AuthLearningWeb.PostLive.FormComponent do
   use AuthLearningWeb, :live_component
 
   alias AuthLearning.Twitters
+  alias AuthLearning.UserAccount
 
   @impl true
   def render(assigns) do
@@ -65,6 +66,9 @@ defmodule AuthLearningWeb.PostLive.FormComponent do
   end
 
   defp save_post(socket, :new, post_params) do
+    current_user_id = socket.assigns.current_user.id
+    post_params = Map.put(post_params, "user_id", current_user_id)
+
     case Twitters.create_post(post_params) do
       {:ok, post} ->
         notify_parent({:saved, post})

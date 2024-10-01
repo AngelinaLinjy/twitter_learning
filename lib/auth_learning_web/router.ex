@@ -20,7 +20,7 @@ defmodule AuthLearningWeb.Router do
   scope "/", AuthLearningWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    # get "/", PageController, :home
+    live "/", PostLive.Index, :index
 
     # posts
 
@@ -43,8 +43,8 @@ defmodule AuthLearningWeb.Router do
     get "/user/reset_password", UserResetPasswordController, :new
     post "/user/reset_password", UserResetPasswordController, :create
 
-    get "user/registration", UserRegistrationController, :index
-    post "user/registration", UserRegistrationController, :create
+    get "/user/registration", UserRegistrationController, :index
+    post "/user/registration", UserRegistrationController, :create
   end
 
   # Other scopes may use custom stacks.

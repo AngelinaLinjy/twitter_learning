@@ -4,8 +4,10 @@ defmodule AuthLearning.Twitters do
   """
 
   import Ecto.Query, warn: false
-  alias AuthLearning.Repo
+  import Ecto.Changeset
 
+  alias AuthLearning.Repo
+  alias AuthLearning.UserAccount
   alias AuthLearning.Twitters.Post
 
   @doc """
