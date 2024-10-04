@@ -9,6 +9,11 @@ defmodule AuthLearning.UserAccount do
   @log_in_session_token "log_in_session_token"
   @log_in_session_token_expired_days 1
 
+  def get!(id) do
+    User
+    |> Repo.get!(id)
+  end
+
   def get_user_by_email_and_password(email, password) do
     User
     |> where(email: ^email, password: ^password)
