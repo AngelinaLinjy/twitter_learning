@@ -2,6 +2,7 @@ defmodule AuthLearning.UserAccount do
   alias AuthLearning.Account.User
   alias AuthLearning.Repo
   alias AuthLearning.Account.UserToken
+  alias AuthLearning.Account.Follows
 
   import Ecto.Query
 
@@ -12,6 +13,26 @@ defmodule AuthLearning.UserAccount do
   def get!(id) do
     User
     |> Repo.get!(id)
+  end
+
+  def user_followings(user_id) do
+    from(u in User,
+      where: u.id == ^user_id,
+      join: f in Follows,
+      on: f.follower_id == u.id,
+      select: count(f.followed_id)
+    )
+    |> Repo.one()
+  end
+
+  def user_followers(user_id) do
+    from(u in User,
+      where: u.id == ^user_id,
+      join: f in Follows,
+      on: f.followed_id == u.id,
+      select: count(f.follower_id)
+    )
+    |> Repo.one()
   end
 
   def get_user_by_email_and_password(email, password) do
