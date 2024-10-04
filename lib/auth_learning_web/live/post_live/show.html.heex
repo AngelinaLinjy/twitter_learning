@@ -1,7 +1,12 @@
 <div>
   <.header>
-    Post <%= @post.id %>
-    <:subtitle>This is a post record from your database.</:subtitle>
+    <%= @post.subject %>
+    <:subtitle>
+      by:
+      <.link patch={~p"/user_profile/#{@post.user.id}"} phx-click={JS.push_focus()}>
+        <%= @post.user.name %>
+      </.link>
+    </:subtitle>
     <:actions>
       <.link patch={~p"/posts/#{@post}/show/edit"} phx-click={JS.push_focus()}>
         <.button>Edit post</.button>
@@ -10,7 +15,6 @@
   </.header>
 
   <.list>
-    <:item title="Subject"><%= @post.subject %></:item>
     <:item title="Body"><%= @post.body %></:item>
   </.list>
 </div>

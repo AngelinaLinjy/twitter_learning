@@ -26,4 +26,23 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     |> assign(:page_title, "Profile")
     |> assign(:user, UserAccount.get!(id))
   end
+
+  @impl true
+  def handle_event("follow", params, socket) do
+    case UserAccount.create_following(socket.assigns.current_user.id, socket.assigns.user.id) do
+      {:ok, _} ->
+        socket =
+          socket
+          |> put_flash(:info, "Follow user successfully!")
+
+        {:noreply, socket}
+
+      _ ->
+        socket =
+          socket
+          |> put_flash(:error, "Failed to follow user!")
+
+        {:noreply, socket}
+    end
+  end
 end

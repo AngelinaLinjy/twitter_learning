@@ -35,6 +35,12 @@ defmodule AuthLearning.UserAccount do
     |> Repo.one()
   end
 
+  def create_following(follower_id, followed_id) do
+    %Follows{}
+    |> Follows.changeset(%{follower_id: follower_id, followed_id: followed_id})
+    |> Repo.insert()
+  end
+
   def get_user_by_email_and_password(email, password) do
     User
     |> where(email: ^email, password: ^password)

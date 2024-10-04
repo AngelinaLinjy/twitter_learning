@@ -4,7 +4,7 @@ defmodule AuthLearning.Account.Follows do
 
   alias AuthLearning.Account.User
 
-  @required_fields [:follower_id, :followed]
+  @required_fields [:follower_id, :followed_id]
 
   schema "follows" do
     belongs_to :follower, User
@@ -18,5 +18,6 @@ defmodule AuthLearning.Account.Follows do
     user
     |> cast(attrs, @required_fields)
     |> validate_required(@required_fields)
+    |> unique_constraint([:follower_id, :followed_id])
   end
 end

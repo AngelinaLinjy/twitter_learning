@@ -36,7 +36,8 @@ defmodule AuthLearning.Twitters do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id) |> Repo.preload(comment: [:user])
+  def get_post!(id),
+    do: Repo.get!(Post, id) |> Repo.preload(comment: [:user]) |> Repo.preload(:user)
 
   @doc """
   Creates a post.
