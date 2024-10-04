@@ -23,6 +23,12 @@ defmodule AuthLearningWeb.PostLive.Index do
     |> assign(:post, Twitters.get_post!(id))
   end
 
+  defp apply_action(socket, :comment, %{"id" => id}) do
+    socket
+    |> assign(:page_title, "Comment Post")
+    |> assign(:post, Twitters.get_post!(id))
+  end
+
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Post")
@@ -36,7 +42,7 @@ defmodule AuthLearningWeb.PostLive.Index do
   end
 
   @impl true
-  def handle_info({AuthLearningWeb.PostLive.FormComponent, {:saved, post}}, socket) do
+  def handle_info({AuthLearningWeb.PostLive.CommentFormComponent, {:saved, post}}, socket) do
     {:noreply, stream_insert(socket, :posts, post)}
   end
 

@@ -4,6 +4,7 @@ defmodule AuthLearning.Account.User do
 
   alias AuthLearning.Account.UserToken
   alias AuthLearning.Twitters.Post
+  alias AuthLearning.Twitters.Comment
 
   @required_fields [:name, :email, :password]
 
@@ -13,6 +14,7 @@ defmodule AuthLearning.Account.User do
     field :password, :string
     has_many :user_tokens, UserToken
     has_many :posts, Post
+    has_many :comment, Comment
 
     timestamps(type: :utc_datetime)
   end

@@ -2,7 +2,6 @@ defmodule AuthLearningWeb.PostLive.FormComponent do
   use AuthLearningWeb, :live_component
 
   alias AuthLearning.Twitters
-  alias AuthLearning.UserAccount
 
   @impl true
   def render(assigns) do

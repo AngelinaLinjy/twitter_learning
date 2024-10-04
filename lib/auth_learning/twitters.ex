@@ -4,11 +4,10 @@ defmodule AuthLearning.Twitters do
   """
 
   import Ecto.Query, warn: false
-  import Ecto.Changeset
 
   alias AuthLearning.Repo
-  alias AuthLearning.UserAccount
   alias AuthLearning.Twitters.Post
+  alias AuthLearning.Twitters.Comment
 
   @doc """
   Returns the list of posts.
@@ -104,5 +103,31 @@ defmodule AuthLearning.Twitters do
     post
     |> Repo.preload(:user)
     |> Post.changeset(attrs)
+  end
+
+  # Comment
+
+  def change_comment(%Comment{} = comment, attrs \\ %{}) do
+    comment
+    |> Repo.preload(:user)
+    |> Repo.preload(:post)
+    |> Comment.changeset(attrs)
+  end
+
+  @doc """
+  Create a comment on a specific post
+
+  # Examples
+
+      iex> create_comment(%{field: value})
+      {:ok, %Post{}}
+
+      iex> create_comment(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_comment(attrs \\ %{}) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
   end
 end

@@ -3,6 +3,7 @@ defmodule AuthLearning.Twitters.Post do
   import Ecto.Changeset
 
   alias AuthLearning.Account.User
+  alias AuthLearning.Twitters.Comment
 
   @required_fields [:subject, :body, :user_id]
 
@@ -10,6 +11,7 @@ defmodule AuthLearning.Twitters.Post do
     field :body, :string
     field :subject, :string
     belongs_to :user, User, foreign_key: :user_id
+    has_many :comment, Comment
 
     timestamps(type: :utc_datetime)
   end
