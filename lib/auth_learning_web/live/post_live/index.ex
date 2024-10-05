@@ -7,9 +7,7 @@ defmodule AuthLearningWeb.PostLive.Index do
 
   @impl true
   def mount(_params, session, socket) do
-    current_user = fetch_current_user(session)
-
-    {:ok, stream(socket, :posts, Twitters.list_posts()) |> assign(:current_user, current_user)}
+    {:ok, stream(socket, :posts, Twitters.list_posts())}
   end
 
   @impl true
@@ -52,12 +50,5 @@ defmodule AuthLearningWeb.PostLive.Index do
     {:ok, _} = Twitters.delete_post(post)
 
     {:noreply, stream_delete(socket, :posts, post)}
-  end
-
-  defp fetch_current_user(session) do
-    token = Map.get(session, "user_token")
-
-    %AuthLearning.Account.User{} = user = UserAccount.verify_user_by_session_token(token)
-    user
   end
 end

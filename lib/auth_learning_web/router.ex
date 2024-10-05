@@ -20,17 +20,22 @@ defmodule AuthLearningWeb.Router do
   scope "/", AuthLearningWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    live "/", PostLive.Index, :index
+    live_session :fetch_current_user,
+      on_mount: {AuthLearningWeb.FetchCurrentUserLiveSession, :fetch_current_user} do
+      live "/", PostLive.Index, :index
 
-    # posts
+      # posts
+      live "/posts", PostLive.Index, :index
+      live "/posts/new", PostLive.Index, :new
+      live "/posts/:id/edit", PostLive.Index, :edit
+      live "/posts/:id/comment", PostLive.Index, :comment
 
-    live "/posts", PostLive.Index, :index
-    live "/posts/new", PostLive.Index, :new
-    live "/posts/:id/edit", PostLive.Index, :edit
-    live "/posts/:id/comment", PostLive.Index, :comment
+      live "/posts/:id", PostLive.Show, :show
+      live "/posts/:id/show/edit", PostLive.Show, :edit
 
-    live "/posts/:id", PostLive.Show, :show
-    live "/posts/:id/show/edit", PostLive.Show, :edit
+      # user
+      live "/user_profile/:id", UserProfileLive.Index, :index
+    end
   end
 
   # Authentication
