@@ -7,14 +7,16 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
   @impl true
   def mount(%{"id" => user_id}, _session, socket) do
     user = UserAccount.get!(user_id)
-    followings = UserAccount.user_followings(user_id)
-    followers = UserAccount.user_followers(user_id)
+    followings_count = UserAccount.user_followings(user_id)
+    followers_count = UserAccount.user_followers(user_id)
 
     {:ok,
      socket
-     |> assign(:followings, followings)
-     |> assign(:followers, followers)
-     |> assign(:user, user)}
+     |> assign(:followings_count, followings_count)
+     |> assign(:followers_count, followers_count)
+     |> assign(:user, user)
+     |> assign(:follows, [])
+     |> assign(:show_follows, false)}
   end
 
   @impl true
@@ -45,6 +47,18 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
 
         {:noreply, socket}
     end
+  end
+
+  def handle_event("click-following", params, socket) do
+    follows = UserAccount.fetch_following_list(socket.assigns.user.id)
+
+    {:noreply, socket |> assign(:show_follows, "Following") |> assign(:follows, follows)}
+  end
+
+  def handle_event("click-follower", params, socket) do
+    follows = UserAccount.fetch_follower_list(socket.assigns.user.id)
+
+    {:noreply, socket |> assign(:show_follows, "Follower") |> assign(:follows, follows)}
   end
 
   defp is_following?(follower_id, followed_id) do

@@ -54,6 +54,24 @@ defmodule AuthLearning.UserAccount do
     |> Repo.insert()
   end
 
+  def fetch_following_list(user_id) do
+    from(u in User,
+      join: f in Follows,
+      on: f.followed_id == u.id,
+      where: f.follower_id == ^user_id
+    )
+    |> Repo.all()
+  end
+
+  def fetch_follower_list(user_id) do
+    from(u in User,
+      join: f in Follows,
+      on: f.follower_id == u.id,
+      where: f.followed_id == ^user_id
+    )
+    |> Repo.all()
+  end
+
   def get_user_by_email_and_password(email, password) do
     User
     |> where(email: ^email, password: ^password)

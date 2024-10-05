@@ -19,6 +19,22 @@
     <% end %>
   </:item>
   <:item title="Email"><%= @user.email %></:item>
-  <:item title="Followings"><%= @followings %> Followings</:item>
-  <:item title="Followers"><%= @followers %> Followers</:item>
+  <:item title="Followings">
+    <.button phx-click="click-following"><%= @followings_count %> Followings</.button>
+  </:item>
+  <:item title="Followers">
+    <.button phx-click="click-follower"><%= @followers_count %> Followers</.button>
+  </:item>
 </.list>
+
+<div class="mt-8">
+  <%= if @follows && @show_follows do %>
+    <.header>
+      <%= @show_follows %>
+    </.header>
+    <.table id="follows" rows={@follows}>
+      <:col :let={followed} label="Name"><%= followed.name %></:col>
+      <:col :let={followed} label="Email"><%= followed.email %></:col>
+    </.table>
+  <% end %>
+</div>
