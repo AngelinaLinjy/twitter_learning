@@ -1,6 +1,7 @@
 defmodule AuthLearningWeb.UserProfileLive.Index do
   use AuthLearningWeb, :live_view
 
+  alias Hex.API.User
   alias AuthLearning.UserAccount
 
   @impl true
@@ -44,5 +45,9 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
 
         {:noreply, socket}
     end
+  end
+
+  defp is_following?(follower_id, followed_id) do
+    UserAccount.is_following?(follower_id, followed_id)
   end
 end

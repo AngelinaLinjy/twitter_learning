@@ -15,6 +15,19 @@ defmodule AuthLearning.UserAccount do
     |> Repo.get!(id)
   end
 
+  def is_following?(follower_id, followed_id) do
+    query =
+      from(f in Follows,
+        where: f.follower_id == ^follower_id and f.followed_id == ^followed_id,
+        select: count(f.id)
+      )
+
+    case Repo.one(query) do
+      count when count > 0 -> true
+      _ -> false
+    end
+  end
+
   def user_followings(user_id) do
     from(u in User,
       where: u.id == ^user_id,
