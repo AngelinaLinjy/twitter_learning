@@ -4,9 +4,11 @@ defmodule AuthLearningWeb.PostLive.Index do
   alias AuthLearning.Twitters
   alias AuthLearning.Twitters.Post
   alias AuthLearning.UserAccount
+  alias Phoenix.PubSub
 
   @impl true
   def mount(_params, session, socket) do
+    PubSub.subscribe(AuthLearning.PubSub, "new_post")
     {:ok, stream(socket, :posts, Twitters.list_posts())}
   end
 
@@ -42,6 +44,11 @@ defmodule AuthLearningWeb.PostLive.Index do
   @impl true
   def handle_info({AuthLearningWeb.PostLive.CommentFormComponent, {:saved, post}}, socket) do
     {:noreply, stream_insert(socket, :posts, post)}
+  end
+
+  def handle_info({:new_post, post}, socket) do
+    {:noreply,
+     socket |> put_flash(:info, "New post by #{post.user.name}, the subject is: #{post.subject}!")}
   end
 
   @impl true
