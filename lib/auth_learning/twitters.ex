@@ -8,6 +8,7 @@ defmodule AuthLearning.Twitters do
   alias AuthLearning.Repo
   alias AuthLearning.Twitters.Post
   alias AuthLearning.Twitters.Comment
+  alias Phoenix.PubSub
 
   @doc """
   Returns the list of posts.
@@ -51,7 +52,19 @@ defmodule AuthLearning.Twitters do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(attrs \\ %{}) do
+  def create_post(attrs) do
+    case do_create_post(attrs) do
+      {:ok, post} = result ->
+        post = Repo.preload(post, :user)
+        PubSub.broadcast(AuthLearning.PubSub, "new_post", {:new_post, post})
+        result
+
+      other ->
+        other
+    end
+  end
+
+  defp do_create_post(attrs \\ %{}) do
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
