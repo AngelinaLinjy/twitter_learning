@@ -3,3 +3,46 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+
+.tweet {
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #ffffff;
+
+  }
+
+  .avatar {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it circular */
+    margin-right: 10px; /* Space between avatar and text */
+  }
+  
+  .tweet-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tweet-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .tweet-timestamp {
+    color: #657786;
+    font-size: 0.9em;
+  }
+  
+  .tweet-body {
+    margin-top: 5px;
+    height: 80px;
+  }
+  
+  .tweet-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }

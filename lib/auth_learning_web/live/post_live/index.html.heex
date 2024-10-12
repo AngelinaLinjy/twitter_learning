@@ -7,6 +7,13 @@
   </:actions>
 </.header>
 
+<div id="timeline">
+  <%= for {id, post} <- @streams.posts do %>
+    <.live_component module={AuthLearningWeb.PostLive.PostComponent} id={id} post={post} />
+  <% end %>
+</div>
+
+<%!-- 
 <.table
   id="posts"
   rows={@streams.posts}
@@ -36,7 +43,7 @@
       </.link>
     <% end %>
   </:action>
-</.table>
+</.table> --%>
 
 <.modal :if={@live_action in [:new, :edit]} id="post-modal" show on_cancel={JS.patch(~p"/posts")}>
   <.live_component
