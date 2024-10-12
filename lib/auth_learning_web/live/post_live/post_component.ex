@@ -1,5 +1,7 @@
 defmodule AuthLearningWeb.PostLive.PostComponent do
-  use Phoenix.LiveComponent
+  use AuthLearningWeb, :live_component
+
+  alias AuthLearning.Twitters
 
   def render(assigns) do
     ~H"""
@@ -18,8 +20,20 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
           <button phx-click="like">❤️ Like</button>
           <%!-- <span><%= @post.likes_count %> Likes</span> --%>
           <button phx-click="retweet">🔁 Retweet</button>
-          <button phx-click="edit">✏️ Edit</button>
-          <button phx-click="delete">🚮 Delete</button>
+          <%= if @current_user.id == @post.user.id do %>
+            <.link patch={~p"/posts/#{@post.id}/edit"}>✏️ Edit</.link>
+          <% else %>
+            <.link patch={~p"/posts/#{@post.id}/comment"}>Comment</.link>
+          <% end %>
+          <%= if @current_user.id == @post.user.id do %>
+            <.link
+              phx-click={JS.push("delete", value: %{id: @post.id}) |> hide("##{@post.id}")}
+              phx-target={@myself}
+              data-confirm="Are you sure?"
+            >
+              🚮 Delete
+            </.link>
+          <% end %>
         </div>
       </div>
     </div>
@@ -33,6 +47,13 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
       |> redirect(to: "/posts/#{socket.assigns.post.id}")
 
     {:noreply, socket}
+  end
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    post = Twitters.get_post!(id)
+    {:ok, _} = Twitters.delete_post(post)
+
+    {:noreply, stream_delete(socket, :posts, post)}
   end
 
   defp format_timestamp(timestamp) do
