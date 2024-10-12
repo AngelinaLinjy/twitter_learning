@@ -15,7 +15,7 @@ defmodule AuthLearningWeb.UserAuth do
 
       %AuthLearning.Account.User{} = user ->
         conn
-        |> assign(:current_user, user.email)
+        |> assign(:current_user, user)
     end
   end
 

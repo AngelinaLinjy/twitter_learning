@@ -1,6 +1,5 @@
 <div>
   <.header>
-    <%= @post.subject %>
     <:subtitle>
       by:
       <.link patch={~p"/user_profile/#{@post.user.id}"} phx-click={JS.push_focus()}>

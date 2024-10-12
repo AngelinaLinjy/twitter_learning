@@ -11,7 +11,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
           <span class="tweet-timestamp"><%= format_timestamp(@post.inserted_at) %></span>
         </div>
 
-        <div class="tweet-body">
+        <div class="tweet-body" phx-click="body" phx-target={@myself}>
           <p><%= @post.body %></p>
         </div>
         <div class="tweet-footer">
@@ -24,6 +24,15 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
       </div>
     </div>
     """
+  end
+
+  @impl
+  def handle_event("body", _params, socket) do
+    socket =
+      socket
+      |> redirect(to: "/posts/#{socket.assigns.post.id}")
+
+    {:noreply, socket}
   end
 
   defp format_timestamp(timestamp) do

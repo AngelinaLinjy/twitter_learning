@@ -39,6 +39,7 @@
   .tweet-body {
     margin-top: 5px;
     height: 80px;
+    cursor: pointer;
   }
   
   .tweet-footer {
