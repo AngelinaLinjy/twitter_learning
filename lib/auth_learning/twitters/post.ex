@@ -9,7 +9,6 @@ defmodule AuthLearning.Twitters.Post do
 
   schema "posts" do
     field :body, :string
-    field :subject, :string
     belongs_to :user, User, foreign_key: :user_id
     has_many :comment, Comment
 
