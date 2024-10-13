@@ -6,7 +6,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
   def render(assigns) do
     ~H"""
     <div class="tweet flex">
-      <img src="" alt="avatar" class="avatar" />
+      <img src={"/user/avatar/#{@post.user.id}"} alt="avatar" class="avatar" />
       <div class="w-full">
         <div class="tweet-header">
           <strong>@<%= @post.user.name %></strong>

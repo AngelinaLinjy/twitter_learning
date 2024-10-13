@@ -48,6 +48,6 @@ defmodule AuthLearningWeb.PostLive.Index do
 
   def handle_info({:new_post, post}, socket) do
     {:noreply,
-     socket |> put_flash(:info, "New post by #{post.user.name}, the subject is: #{post.subject}!")}
+     socket |> put_flash(:info, "New post by #{post.user.name}, the subject is: #{post.body}!")}
   end
 end

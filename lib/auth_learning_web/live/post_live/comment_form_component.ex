@@ -25,7 +25,7 @@ defmodule AuthLearningWeb.PostLive.CommentFormComponent do
         <.input field={@form[:content]} type="text" label="Comment" />
         <div class="hidden">
           <.input field={@form[:post_id]} type="text" value={@post_id} />
-          <.input field={@form[:user_id]} type="text" value={@post.id} />
+          <.input field={@form[:user_id]} type="text" value={@post.user.id} />
         </div>
         <:actions>
           <.button phx-disable-with="Saving...">Save Comment</.button>
