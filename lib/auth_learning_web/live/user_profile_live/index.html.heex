@@ -25,6 +25,13 @@
   <:item title="Followers">
     <.button phx-click="click-follower"><%= @followers_count %> Followers</.button>
   </:item>
+
+  <:item title="Avatar">
+    <.form for={@form} phx-submit="save" as={:avatar} phx-change="validate">
+      <.live_file_input upload={@uploads.avatar} />
+      <button type="submit">Upload</button>
+    </.form>
+  </:item>
 </.list>
 
 <div class="mt-8">

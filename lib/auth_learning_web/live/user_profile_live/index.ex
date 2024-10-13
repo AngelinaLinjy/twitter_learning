@@ -16,7 +16,10 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
      |> assign(:followers_count, followers_count)
      |> assign(:user, user)
      |> assign(:follows, [])
-     |> assign(:show_follows, false)}
+     |> assign(:show_follows, false)
+     |> assign(:form, %{"avatar" => ""})
+     |> assign(:uploaded_files, [])
+     |> allow_upload(:avatar, accept: ~w(.jpg .png .jpeg), max_entries: 1)}
   end
 
   @impl true
@@ -59,6 +62,23 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     follows = UserAccount.fetch_follower_list(socket.assigns.user.id)
 
     {:noreply, socket |> assign(:show_follows, "Follower") |> assign(:follows, follows)}
+  end
+
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("save", _params, socket) do
+    [file] =
+      consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
+        {:ok, binary_data} = File.read(path)
+
+        UserAccount.update(socket.assigns.user, %{avatar: binary_data})
+
+        {:ok, path}
+      end)
+
+    {:noreply, update(socket, :uploaded_files, &(&1 ++ file))}
   end
 
   defp is_following?(follower_id, followed_id) do

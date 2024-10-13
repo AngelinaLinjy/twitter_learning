@@ -51,6 +51,8 @@ defmodule AuthLearningWeb.Router do
 
     get "/user/registration", UserRegistrationController, :index
     post "/user/registration", UserRegistrationController, :create
+
+    get "/user/avatar/:id", UserAvatarController, :index
   end
 
   # Other scopes may use custom stacks.

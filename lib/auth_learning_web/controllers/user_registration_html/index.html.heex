@@ -3,12 +3,17 @@
     Registration
   </.header>
 
-  <.simple_form :let={f} for={@conn.params["user"]} as={:user} action="/user/registration">
-    <%!-- <.error :if={@error_message}><%= @error_message %></.error> --%>
-
+  <.simple_form
+    :let={f}
+    for={@conn.params["user"]}
+    as={:user}
+    action="/user/registration"
+    multipart
+  >
     <.input field={f[:name]} type="text" label="Name" required />
     <.input field={f[:email]} type="email" label="Email" required />
     <.input field={f[:password]} type="password" label="Password" required />
+    <.input field={f[:avatar]} type="file" label="Avatar" />
 
     <:actions>
       <.button phx-disable-with="Registrating" class="w-full">
