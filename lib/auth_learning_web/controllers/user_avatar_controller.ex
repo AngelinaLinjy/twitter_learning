@@ -8,6 +8,6 @@ defmodule AuthLearningWeb.UserAvatarController do
 
     conn
     |> put_resp_content_type("image/jpeg")
-    |> send_resp(200, user.avatar)
+    |> send_resp(200, user.avatar || "")
   end
 end
