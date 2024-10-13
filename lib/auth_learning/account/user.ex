@@ -14,6 +14,7 @@ defmodule AuthLearning.Account.User do
     field :name, :string
     field :email, :string
     field :password, :string
+    field :avatar, :string
     has_many :user_tokens, UserToken
     has_many :posts, Post
     has_many :comment, Comment
@@ -32,7 +33,7 @@ defmodule AuthLearning.Account.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, @required_fields)
+    |> cast(attrs, @required_fields ++ [:avatar])
     |> validate_required(@required_fields)
     |> unique_constraint([:email])
   end
