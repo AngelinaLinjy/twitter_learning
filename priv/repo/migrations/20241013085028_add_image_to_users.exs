@@ -3,7 +3,7 @@ defmodule AuthLearning.Repo.Migrations.AddImageToPosts do
 
   def change do
     alter table(:users) do
-      add(:avator, :string)
+      add(:avatar, :binary)
     end
   end
 end

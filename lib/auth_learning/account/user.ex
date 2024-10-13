@@ -14,7 +14,7 @@ defmodule AuthLearning.Account.User do
     field :name, :string
     field :email, :string
     field :password, :string
-    field :avatar, :string
+    field :avatar, :binary
     has_many :user_tokens, UserToken
     has_many :posts, Post
     has_many :comment, Comment
