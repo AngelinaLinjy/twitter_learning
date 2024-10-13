@@ -5,11 +5,10 @@ defmodule AuthLearning.Twitters.Post do
   alias AuthLearning.Account.User
   alias AuthLearning.Twitters.Comment
 
-  @required_fields [:subject, :body, :user_id]
+  @required_fields [:body, :user_id]
 
   schema "posts" do
     field :body, :string
-    field :subject, :string
     belongs_to :user, User, foreign_key: :user_id
     has_many :comment, Comment
 

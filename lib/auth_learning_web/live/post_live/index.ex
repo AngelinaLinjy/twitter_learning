@@ -50,12 +50,4 @@ defmodule AuthLearningWeb.PostLive.Index do
     {:noreply,
      socket |> put_flash(:info, "New post by #{post.user.name}, the subject is: #{post.subject}!")}
   end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    post = Twitters.get_post!(id)
-    {:ok, _} = Twitters.delete_post(post)
-
-    {:noreply, stream_delete(socket, :posts, post)}
-  end
 end
