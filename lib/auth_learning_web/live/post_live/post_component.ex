@@ -4,6 +4,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
   alias AuthLearning.Twitters
   alias AuthLearning.Twitters.Post
   alias AuthLearning.Account.User
+  alias AuthLearning.UserAccount
 
   def render(assigns) do
     ~H"""
@@ -19,7 +20,14 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
           <p><%= @post.body %></p>
         </div>
         <div class="tweet-footer">
-          <button phx-click="like" phx-target={@myself}>❤️ Like <%= count_likes(@post.id) %></button>
+          <%= if UserAccount.liked?(@current_user.id, @post.id) do %>
+            <button phx-click="unlike" phx-target={@myself}>
+              ❤️ Unlike <%= count_likes(@post.id) %>
+            </button>
+          <% else %>
+            <button phx-click="like" phx-target={@myself}>❤️ Like <%= count_likes(@post.id) %></button>
+          <% end %>
+
           <button phx-click="retweet">🔁 Retweet</button>
           <%= if @current_user.id == @post.user.id do %>
             <.link patch={~p"/posts/#{@post.id}/edit"}>✏️ Edit</.link>
@@ -73,6 +81,25 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
 
       _ ->
         {:noreply, socket |> put_flash(:error, "failed to like")}
+    end
+  end
+
+  def handle_event(
+        "unlike",
+        _params,
+        %{assigns: %{post: %Post{id: post_id}, current_user: %User{id: current_user_id}}} = socket
+      ) do
+    case Twitters.delete_like(%{post_id: post_id, user_id: current_user_id}) do
+      {:ok, _} ->
+        post = Twitters.get_post!(post_id)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Unlike successfully!")
+         |> redirect(to: "/")}
+
+      _ ->
+        {:noreply, socket |> put_flash(:error, "failed to unlike")}
     end
   end
 

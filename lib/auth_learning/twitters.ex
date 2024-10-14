@@ -224,7 +224,8 @@ defmodule AuthLearning.Twitters do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_like(%Like{} = like) do
+  def delete_like(%{post_id: post_id, user_id: user_id} = _like) do
+    like = Repo.get_by(Like, post_id: post_id, user_id: user_id)
     Repo.delete(like)
   end
 
