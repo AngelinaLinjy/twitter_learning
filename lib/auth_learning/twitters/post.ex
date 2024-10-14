@@ -4,13 +4,15 @@ defmodule AuthLearning.Twitters.Post do
 
   alias AuthLearning.Account.User
   alias AuthLearning.Twitters.Comment
+  alias AuthLearning.Twitters.Like
 
   @required_fields [:body, :user_id]
 
   schema "posts" do
     field :body, :string
     belongs_to :user, User, foreign_key: :user_id
-    has_many :comment, Comment
+    has_many :comment, Comment, on_delete: :delete_all
+    has_many :like, Like, on_delete: :delete_all
 
     timestamps(type: :utc_datetime)
   end

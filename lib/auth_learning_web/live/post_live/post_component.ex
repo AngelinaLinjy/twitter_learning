@@ -2,6 +2,8 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
   use AuthLearningWeb, :live_component
 
   alias AuthLearning.Twitters
+  alias AuthLearning.Twitters.Post
+  alias AuthLearning.Account.User
 
   def render(assigns) do
     ~H"""
@@ -17,8 +19,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
           <p><%= @post.body %></p>
         </div>
         <div class="tweet-footer">
-          <button phx-click="like">❤️ Like</button>
-          <%!-- <span><%= @post.likes_count %> Likes</span> --%>
+          <button phx-click="like" phx-target={@myself}>❤️ Like <%= count_likes(@post.id) %></button>
           <button phx-click="retweet">🔁 Retweet</button>
           <%= if @current_user.id == @post.user.id do %>
             <.link patch={~p"/posts/#{@post.id}/edit"}>✏️ Edit</.link>
@@ -53,7 +54,26 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
     post = Twitters.get_post!(id)
     {:ok, _} = Twitters.delete_post(post)
 
-    {:noreply, stream_delete(socket, :posts, post)}
+    {:noreply, socket |> redirect(to: "/")}
+  end
+
+  def handle_event(
+        "like",
+        _params,
+        %{assigns: %{post: %Post{id: post_id}, current_user: %User{id: current_user_id}}} = socket
+      ) do
+    case Twitters.create_like(%{post_id: post_id, user_id: current_user_id}) do
+      {:ok, _} ->
+        post = Twitters.get_post!(post_id)
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "Add like successfully!")
+         |> redirect(to: "/")}
+
+      _ ->
+        {:noreply, socket |> put_flash(:error, "failed to like")}
+    end
   end
 
   defp format_timestamp(timestamp) do
@@ -76,5 +96,9 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
         days = div(elapsed_time, 86400)
         "#{days} day#{if days != 1, do: "s"} ago"
     end
+  end
+
+  defp count_likes(post_id) do
+    Twitters.count_likes(post_id)
   end
 end

@@ -240,4 +240,9 @@ defmodule AuthLearning.Twitters do
   def change_like(%Like{} = like, attrs \\ %{}) do
     Like.changeset(like, attrs)
   end
+
+  def count_likes(post_id) do
+    from(l in Like, where: l.post_id == ^post_id)
+    |> Repo.aggregate(:count)
+  end
 end
