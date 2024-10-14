@@ -3,6 +3,7 @@ defmodule AuthLearning.UserAccount do
   alias AuthLearning.Repo
   alias AuthLearning.Account.UserToken
   alias AuthLearning.Account.Follows
+  alias AuthLearning.Twitters.Like
 
   import Ecto.Query
 
@@ -131,5 +132,9 @@ defmodule AuthLearning.UserAccount do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+  end
+
+  def liked?(user_id, post_id) do
+    Repo.exists?(from l in Like, where: l.user_id == ^user_id and l.post_id == ^post_id)
   end
 end

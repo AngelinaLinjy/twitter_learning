@@ -19,7 +19,6 @@ defmodule AuthLearningWeb.PostLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:subject]} type="text" label="Subject" />
         <.input field={@form[:body]} type="text" label="Body" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Post</.button>
