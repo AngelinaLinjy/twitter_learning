@@ -117,6 +117,7 @@
               id="user-menu-button"
               aria-expanded="false"
               aria-haspopup="true"
+              onclick="toggleDropdown()"
             >
               <span class="absolute -inset-1.5"></span>
               <span class="sr-only">Open user menu</span>
@@ -143,6 +144,8 @@
             aria-orientation="vertical"
             aria-labelledby="user-menu-button"
             tabindex="-1"
+            id="dropdown-menu"
+            hidden
           >
             <!-- Active: "bg-gray-100", Not Active: "" -->
             <%= if assigns[:current_user] do %>
@@ -221,3 +224,15 @@
     <%= @inner_content %>
   </div>
 </main>
+
+<script>
+  function toggleDropdown() {
+    const dropdown = document.getElementById('dropdown-menu');
+
+    if (!dropdown.style.display || dropdown.style.display === "none") {
+      dropdown.style.display = "block";
+    } else {
+      dropdown.style.display = "none";
+    } 
+  }
+</script>
