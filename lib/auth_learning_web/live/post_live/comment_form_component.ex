@@ -9,7 +9,7 @@ defmodule AuthLearningWeb.PostLive.CommentFormComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div>
+    <div class="bg-black text-white">
       <.header>
         <%= @title %>
         <:subtitle>Leave the comment!</:subtitle>
