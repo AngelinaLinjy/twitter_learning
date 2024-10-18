@@ -8,7 +8,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="tweet flex">
+    <div id={"post-#{@post.id}"} class="tweet flex p-4">
       <img src={"/user/avatar/#{@post.user.id}"} alt="avatar" class="avatar" />
       <div class="w-full">
         <div class="tweet-header">
