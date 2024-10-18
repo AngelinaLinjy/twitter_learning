@@ -32,7 +32,7 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
           <%= if @current_user.id == @post.user.id do %>
             <.link patch={~p"/posts/#{@post.id}/edit"}>✏️ Edit</.link>
           <% else %>
-            <.link patch={~p"/posts/#{@post.id}/comment"}>Comment</.link>
+            <.link patch={~p"/posts/#{@post.id}/comment"}>📝 Comment</.link>
           <% end %>
           <%= if @current_user.id == @post.user.id do %>
             <.link
