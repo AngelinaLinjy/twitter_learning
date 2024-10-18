@@ -7,7 +7,7 @@ defmodule AuthLearningWeb.PostLive.Index do
   alias Phoenix.PubSub
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     PubSub.subscribe(AuthLearning.PubSub, "new_post")
     {:ok, stream(socket, :posts, Twitters.list_posts())}
   end
@@ -15,6 +15,11 @@ defmodule AuthLearningWeb.PostLive.Index do
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_event("cancel", _, socket) do
+    {:noreply, redirect(socket, to: ~p"/posts")}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
