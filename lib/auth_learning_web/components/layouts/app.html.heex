@@ -62,83 +62,44 @@
         </svg>
         More
       </a>
-    <.link
-      navigate={~p"/posts/new"}
-      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-xl mt-4 w-full inline-block text-center"
-    >
-      Post
-    </.link>
-    
-    <div class="mt-auto mb-4">
-      <div class="flex items-center px-4 py-2 hover:bg-gray-900 rounded-full">
-        <img class="h-10 w-10 rounded-full mr-3" src={"/user/avatar/#{@current_user.id}"} alt="User avatar" />
-        <div class="flex-grow">
-          <p class="font-bold"><%= @current_user.name %></p>
+      <.link
+        navigate={~p"/posts/new"}
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-xl mt-4 w-full inline-block text-center"
+      >
+        Post
+      </.link>
+
+      <div class="mt-auto mb-4">
+        <div class="flex items-center px-4 py-2 hover:bg-gray-900 rounded-full">
+          <img
+            class="h-10 w-10 rounded-full mr-3"
+            src={"/user/avatar/#{@current_user.id}"}
+            alt="User avatar"
+          />
+          <div class="flex-grow">
+            <p class="font-bold"><%= @current_user.name %></p>
+          </div>
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+            </path>
+          </svg>
         </div>
-        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path>
-        </svg>
       </div>
-    </div>
     </nav>
   </div>
   <!-- Main content area -->
-  <div class="flex-1 ml-64 overflow-y-auto">
-    <!-- Top bar -->
-    <header class="sticky top-0 z-10 bg-black bg-opacity-70 backdrop-blur">
-      <div class="flex justify-between items-center px-4 py-3">
-        <h1 class="text-xl font-bold"><%= assigns[:page_title] || "Home" %></h1>
-        <%= if assigns[:current_user] do %>
-          <div class="relative">
-            <button
-              type="button"
-              class="flex items-center text-sm focus:outline-none"
-              id="user-menu-button"
-              aria-expanded="false"
-              aria-haspopup="true"
-              onclick="toggleDropdown()"
-            >
-              <img class="h-8 w-8 rounded-full" src={"/user/avatar/#{@current_user.id}"} alt="" />
-              <span class="ml-2"><%= @current_user.name %></span>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-black py-1 shadow-lg ring-1 ring-gray-800 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="user-menu-button"
-              tabindex="-1"
-              id="dropdown-menu"
-              hidden
-            >
-              <a
-                href={"/user_profile/#{@current_user.id}"}
-                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
-                role="menuitem"
-              >
-                Profile
-              </a>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
-                role="menuitem"
-              >
-                Settings
-              </a>
-              <a
-                href="#"
-                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
-                role="menuitem"
-              >
-                Log out
-              </a>
-            </div>
-          </div>
-        <% else %>
-          <a href="/users/log_in" class="text-blue-400 hover:underline">Log in</a>
-        <% end %>
-      </div>
-    </header>
+  <div class="flex-1 ml-64">
+    <!-- Fixed Top bar -->
+    <div class="sticky top-0 bg-black z-10 border-b border-gray-800">
+      <nav class="flex">
+        <a href="#" class="flex-1 text-center py-4 text-xl font-bold hover:bg-gray-900">
+          For you
+        </a>
+        <a href="#" class="flex-1 text-center py-4 text-xl font-bold hover:bg-gray-900">
+          Following
+        </a>
+      </nav>
+    </div>
     <!-- Page content -->
     <main class="p-4">
       <.flash_group flash={@flash} />
