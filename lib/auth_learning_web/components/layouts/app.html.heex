@@ -1,238 +1,112 @@
-<nav class="bg-gray-800">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
-        <button
-          type="button"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-          aria-controls="mobile-menu"
-          aria-expanded="false"
-        >
-          <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">Open main menu</span>
-          <!--
-            Icon when menu is closed.
+<div class="flex h-full">
+  <!-- Left sidebar -->
+  <div class="w-64 border-r border-gray-800">
+    <div class="p-4">
+      <a href="/" class="text-3xl font-bold">𝕏</a>
+    </div>
+    <nav class="mt-5">
+      <a href="#" class="flex items-center px-4 py-2 text-xl hover:bg-gray-900">
+        <svg class="h-7 w-7 mr-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 1.696L.622 8.807l1.06 1.696L3 9.679V19.5C3 20.881 4.119 22 5.5 22h13c1.381 0 2.5-1.119 2.5-2.5V9.679l1.318.824 1.06-1.696L12 1.696zM12 16.5c-1.933 0-3.5-1.567-3.5-3.5s1.567-3.5 3.5-3.5 3.5 1.567 3.5 3.5-1.567 3.5-3.5 3.5z"></path>
+        </svg>
+        Home
+      </a>
+      <a href="#" class="flex items-center px-4 py-2 text-xl hover:bg-gray-900">
+        <svg class="h-7 w-7 mr-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10.25 3.75c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5c1.795 0 3.419-.726 4.596-1.904 1.178-1.177 1.904-2.801 1.904-4.596 0-3.59-2.91-6.5-6.5-6.5zm-8.5 6.5c0-4.694 3.806-8.5 8.5-8.5s8.5 3.806 8.5 8.5c0 1.986-.682 3.815-1.824 5.262l4.781 4.781-1.414 1.414-4.781-4.781c-1.447 1.142-3.276 1.824-5.262 1.824-4.694 0-8.5-3.806-8.5-8.5z"></path>
+        </svg>
+        Explore
+      </a>
+      <!-- Add more navigation items -->
+    </nav>
+  </div>
 
-            Menu open: "hidden", Menu closed: "block"
-          -->
-          <svg
-            class="block h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-          <!--
-            Icon when menu is open.
-
-            Menu open: "block", Menu closed: "hidden"
-          -->
-          <svg
-            class="hidden h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex flex-shrink-0 items-center">
-          <button
-            class="h-8 w-auto"
-            src="/"
-            alt="Home"
-          />
-        </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a
-              href="#"
-              class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-              aria-current="page"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Explore
-            </a>
-            <a
-              href="#"
-              class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Notifications
-            </a>
-            <a
-              href="#"
-              class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Messages
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <button
-          type="button"
-          class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-        >
-          <span class="absolute -inset-1.5"></span>
-          <span class="sr-only">View notifications</span>
-          <svg
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-            />
-          </svg>
-        </button>
-        <!-- Profile dropdown -->
-        <div class="relative ml-3">
-          <div>
+  <!-- Main content area -->
+  <div class="flex-1">
+    <!-- Top bar -->
+    <header class="sticky top-0 z-10 bg-black bg-opacity-70 backdrop-blur">
+      <div class="flex justify-between items-center px-4 py-3">
+        <h1 class="text-xl font-bold"><%= assigns[:page_title] || "Home" %></h1>
+        <%= if assigns[:current_user] do %>
+          <div class="relative">
             <button
               type="button"
-              class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+              class="flex items-center text-sm focus:outline-none"
               id="user-menu-button"
               aria-expanded="false"
               aria-haspopup="true"
               onclick="toggleDropdown()"
             >
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">Open user menu</span>
               <img
                 class="h-8 w-8 rounded-full"
-                src={"/user/avatar/#{assigns[:current_user] && assigns[:current_user].id}"}
+                src={"/user/avatar/#{@current_user.id}"}
                 alt=""
               />
+              <span class="ml-2"><%= @current_user.name %></span>
             </button>
-          </div>
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-          <div
-            class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="user-menu-button"
-            tabindex="-1"
-            id="dropdown-menu"
-            hidden
-          >
-            <!-- Active: "bg-gray-100", Not Active: "" -->
-            <%= if assigns[:current_user] do %>
+            <!-- Dropdown menu -->
+            <div
+              class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-black py-1 shadow-lg ring-1 ring-gray-800 focus:outline-none"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu-button"
+              tabindex="-1"
+              id="dropdown-menu"
+              hidden
+            >
               <a
                 href={"/user_profile/#{@current_user.id}"}
-                class="block px-4 py-2 text-sm text-gray-700"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
                 role="menuitem"
-                tabindex="-1"
-                id="user-menu-item-0"
               >
-                <%= @current_user.name %>
+                Profile
               </a>
-            <% end %>
-            <a
-              href="#"
-              class="block px-4 py-2 text-sm text-gray-700"
-              role="menuitem"
-              tabindex="-1"
-              id="user-menu-item-1"
-            >
-              Settings
-            </a>
-            <a
-              href="#"
-              class="block px-4 py-2 text-sm text-gray-700"
-              role="menuitem"
-              tabindex="-1"
-              id="user-menu-item-2"
-            >
-              Sign out
-            </a>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
+                role="menuitem"
+              >
+                Settings
+              </a>
+              <a
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800"
+                role="menuitem"
+              >
+                Log out
+              </a>
+            </div>
           </div>
-        </div>
+        <% else %>
+          <a href="/users/log_in" class="text-blue-400 hover:underline">Log in</a>
+        <% end %>
       </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="p-4">
+      <.flash_group flash={@flash} />
+      <%= @inner_content %>
+    </main>
+  </div>
+
+  <!-- Right sidebar (optional) -->
+  <div class="hidden lg:block w-80 border-l border-gray-800 p-4">
+    <!-- Search box -->
+    <div class="mb-4">
+      <input type="text" placeholder="Search" class="w-full bg-gray-900 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    </div>
+    <!-- Trends -->
+    <div>
+      <h2 class="text-xl font-bold mb-2">Trends</h2>
+      <!-- Add trend items -->
     </div>
   </div>
-  <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="sm:hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pb-3 pt-2">
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <%= if assigns[:current_user] do %>
-        <a
-          href={"/user_profile/#{@current_user.id}"}
-          class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-          aria-current="page"
-        >
-          <%= @current_user.name %>
-        </a>
-      <% end %>
-
-      <a
-        href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-      >
-        Add an existing account
-      </a>
-      <a
-        href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-      >
-        Account
-      </a>
-      <a
-        href="#"
-        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-      >
-        Log out
-      </a>
-    </div>
-  </div>
-</nav>
-
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    <%= @inner_content %>
-  </div>
-</main>
+</div>
 
 <script>
   function toggleDropdown() {
     const dropdown = document.getElementById('dropdown-menu');
-
-    if (!dropdown.style.display || dropdown.style.display === "none") {
-      dropdown.style.display = "block";
-    } else {
-      dropdown.style.display = "none";
-    } 
+    dropdown.hidden = !dropdown.hidden;
   }
 </script>
