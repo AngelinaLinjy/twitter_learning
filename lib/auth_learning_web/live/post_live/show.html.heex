@@ -65,6 +65,17 @@
     </div>
   </div>
 
+  <div class="border-t border-gray-800 mt-4">
+    <.live_component
+      module={AuthLearningWeb.PostLive.CommentFormComponent}
+      id="new-comment"
+      post={@post}
+      current_user={@current_user}
+      return_to={~p"/posts/#{@post.id}"}
+      action={:comment}
+    />
+  </div>
+
   <div class="p-4">
     <h2 class="text-xl font-bold mb-4">Comment</h2>
     <%= for comment <- @post.comment do %>

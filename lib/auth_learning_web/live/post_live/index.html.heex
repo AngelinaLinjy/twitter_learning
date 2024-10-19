@@ -35,15 +35,3 @@
     patch={~p"/posts"}
   />
 </.modal>
-
-<.modal :if={@live_action in [:comment]} id="post-modal" show on_cancel={JS.push("cancel")}>
-  <.live_component
-    module={AuthLearningWeb.PostLive.CommentFormComponent}
-    id={@post.id || :comment}
-    title={@page_title}
-    action={@live_action}
-    post={@post}
-    current_user={@current_user}
-    patch={~p"/posts"}
-  />
-</.modal>
