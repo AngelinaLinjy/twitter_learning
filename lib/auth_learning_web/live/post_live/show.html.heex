@@ -1,5 +1,5 @@
 <div class="max-w-2xl mx-auto bg-black text-white">
-  <div class="border-b border-gray-800 p-4">
+  <div class="border-gray-800 p-4">
     <div class="flex items-center mb-4">
       <button class="mr-4" phx-click={JS.navigate(~p"/posts")}>
         <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current text-blue-400">
@@ -26,7 +26,7 @@
       <%= @post.inserted_at %>
     </div>
 
-    <div class="flex justify-around py-2 border-b border-gray-800">
+    <div class="flex justify-around py-2 border-b border-t border-gray-800">
       <button class="text-gray-500 hover:text-blue-400 transition duration-200 flex items-center space-x-2">
         <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current ">
           <g>
@@ -65,7 +65,7 @@
     </div>
   </div>
 
-  <div class="border-t border-gray-800 mt-4">
+  <div class="border-gray-800 mt-4">
     <.live_component
       module={AuthLearningWeb.PostLive.CommentFormComponent}
       id="new-comment"
