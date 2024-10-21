@@ -45,22 +45,62 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
               <%!-- <%= count_retweets(@post.id) %> --%> 999
             </button>
             <button
-              class="flex items-center hover:text-pink-600 transition duration-200"
+              class="flex items-center transition duration-200 group"
               phx-click={
                 if UserAccount.liked?(@current_user.id, @post.id), do: "unlike", else: "like"
               }
               phx-target={@myself}
             >
-              <svg
-                viewBox="0 0 24 24"
-                class={"w-5 h-5 mr-2 #{if UserAccount.liked?(@current_user.id, @post.id), do: "text-pink-600 fill-current", else: "fill-current"}"}
-              >
-                <g>
-                  <path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z">
-                  </path>
-                </g>
-              </svg>
-              <%= count_likes(@post.id) %>
+              <div class="relative">
+                <svg
+                  viewBox="0 0 24 24"
+                  class={
+                    "w-5 h-5 mr-2 transition-all duration-300 ease-out #{
+                      if UserAccount.liked?(@current_user.id, @post.id),
+                        do: "text-pink-600",
+                        else: "text-gray-500 group-hover:text-pink-600"
+                    }"
+                  }
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12z"
+                  />
+                </svg>
+                <div class={
+                  "absolute inset-0 transition-all duration-300 #{
+                    if UserAccount.liked?(@current_user.id, @post.id),
+                      do: "opacity-100 scale-100",
+                      else: "opacity-0 scale-0"
+                  }"
+                }>
+                  <svg viewBox="0 0 24 24" class="w-5 h-5 text-pink-600 fill-current">
+                    <path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12z" />
+                  </svg>
+                  <div class="absolute inset-0 animate-heart-burst">
+                    <div class="absolute inset-0 opacity-0 animate-sparkle">
+                      <svg viewBox="0 0 24 24" class="w-5 h-5 text-pink-300 fill-current">
+                        <circle cx="12" cy="12" r="1" />
+                        <circle cx="8" cy="9" r="1" />
+                        <circle cx="16" cy="9" r="1" />
+                        <circle cx="8" cy="15" r="1" />
+                        <circle cx="16" cy="15" r="1" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class={
+                "transition-colors duration-300 #{
+                  if UserAccount.liked?(@current_user.id, @post.id),
+                    do: "text-pink-600",
+                    else: "text-gray-500 group-hover:text-pink-600"
+                }"
+              }>
+                <%= count_likes(@post.id) %>
+              </span>
             </button>
             <%= if @current_user.id == @post.user.id do %>
               <button
