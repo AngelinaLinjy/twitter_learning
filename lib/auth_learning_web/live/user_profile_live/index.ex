@@ -1,7 +1,6 @@
 defmodule AuthLearningWeb.UserProfileLive.Index do
   use AuthLearningWeb, :live_view
 
-  alias Hex.API.User
   alias AuthLearning.UserAccount
 
   @impl true
@@ -34,7 +33,7 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
   end
 
   @impl true
-  def handle_event("follow", params, socket) do
+  def handle_event("follow", _params, socket) do
     case UserAccount.create_following(socket.assigns.current_user.id, socket.assigns.user.id) do
       {:ok, _} ->
         socket =
@@ -52,13 +51,13 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     end
   end
 
-  def handle_event("click-following", params, socket) do
+  def handle_event("click-following", _params, socket) do
     follows = UserAccount.fetch_following_list(socket.assigns.user.id)
 
     {:noreply, socket |> assign(:show_follows, "Following") |> assign(:follows, follows)}
   end
 
-  def handle_event("click-follower", params, socket) do
+  def handle_event("click-follower", _params, socket) do
     follows = UserAccount.fetch_follower_list(socket.assigns.user.id)
 
     {:noreply, socket |> assign(:show_follows, "Follower") |> assign(:follows, follows)}

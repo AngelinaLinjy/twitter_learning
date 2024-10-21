@@ -71,11 +71,13 @@
 
     <div class="mt-auto mb-8">
       <div class="flex items-center px-4 py-2 hover:bg-gray-900 rounded-full">
+        <.link navigate={~p"/user_profile/#{@current_user.id}"}>
         <img
           class="h-10 w-10 rounded-full mr-3"
           src={if @current_user, do: "/user/avatar/#{@current_user.id}", else: ""}
           alt="User avatar"
-        />
+          />
+        </.link>
         <div class="flex-grow">
           <p class="font-bold"><%= if @current_user, do: @current_user.name, else: "" %></p>
         </div>
