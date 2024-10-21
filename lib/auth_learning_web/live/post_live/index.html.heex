@@ -1,6 +1,6 @@
 <div class="bg-black text-white">
   <div class="max-w-2xl mx-auto">
-    <div class="border-b border-gray-800 p-4">
+    <div class="border-b border-gray-800">
       <.live_component
         module={AuthLearningWeb.PostLive.FormComponent}
         id={:new_post_home_page}
@@ -28,18 +28,6 @@
   <.live_component
     module={AuthLearningWeb.PostLive.FormComponent}
     id={@post.id || :new}
-    title={@page_title}
-    action={@live_action}
-    post={@post}
-    current_user={@current_user}
-    patch={~p"/posts"}
-  />
-</.modal>
-
-<.modal :if={@live_action in [:comment]} id="post-modal" show on_cancel={JS.push("cancel")}>
-  <.live_component
-    module={AuthLearningWeb.PostLive.CommentFormComponent}
-    id={@post.id || :comment}
     title={@page_title}
     action={@live_action}
     post={@post}

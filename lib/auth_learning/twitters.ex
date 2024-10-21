@@ -119,6 +119,15 @@ defmodule AuthLearning.Twitters do
     |> Post.changeset(attrs)
   end
 
+  def list_user_posts(user_id) do
+    Repo.all(
+      from p in Post,
+        where: p.user_id == ^user_id,
+        order_by: [desc: p.inserted_at],
+        preload: [:user, :comment, :like]
+    )
+  end
+
   # Comment
 
   def change_comment(%Comment{} = comment, attrs \\ %{}) do

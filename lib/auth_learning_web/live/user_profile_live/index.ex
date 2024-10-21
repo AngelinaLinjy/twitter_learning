@@ -1,14 +1,15 @@
 defmodule AuthLearningWeb.UserProfileLive.Index do
   use AuthLearningWeb, :live_view
 
-  alias Hex.API.User
   alias AuthLearning.UserAccount
+  alias AuthLearning.Twitters
 
   @impl true
   def mount(%{"id" => user_id}, _session, socket) do
     user = UserAccount.get!(user_id)
     followings_count = UserAccount.user_followings(user_id)
     followers_count = UserAccount.user_followers(user_id)
+    posts = Twitters.list_user_posts(user_id)
 
     {:ok,
      socket
@@ -18,6 +19,8 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
      |> assign(:follows, [])
      |> assign(:show_follows, false)
      |> assign(:form, %{"avatar" => ""})
+     |> assign(:active_tab, "posts")
+     |> assign(:posts, posts)
      |> assign(:uploaded_files, [])
      |> allow_upload(:avatar, accept: ~w(.jpg .png .jpeg), max_entries: 1)}
   end
@@ -34,12 +37,13 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
   end
 
   @impl true
-  def handle_event("follow", params, socket) do
+  def handle_event("follow", _params, socket) do
     case UserAccount.create_following(socket.assigns.current_user.id, socket.assigns.user.id) do
       {:ok, _} ->
         socket =
           socket
           |> put_flash(:info, "Follow user successfully!")
+          |> assign(:followers_count, socket.assigns.followers_count + 1)
 
         {:noreply, socket}
 
@@ -52,16 +56,20 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     end
   end
 
-  def handle_event("click-following", params, socket) do
+  def handle_event("click-following", _params, socket) do
     follows = UserAccount.fetch_following_list(socket.assigns.user.id)
 
     {:noreply, socket |> assign(:show_follows, "Following") |> assign(:follows, follows)}
   end
 
-  def handle_event("click-follower", params, socket) do
+  def handle_event("click-follower", _params, socket) do
     follows = UserAccount.fetch_follower_list(socket.assigns.user.id)
 
     {:noreply, socket |> assign(:show_follows, "Follower") |> assign(:follows, follows)}
+  end
+
+  def handle_event("close-follows", _params, socket) do
+    {:noreply, socket |> assign(:show_follows, false) |> assign(:follows, [])}
   end
 
   def handle_event("validate", _params, socket) do
@@ -79,6 +87,20 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
       end)
 
     {:noreply, update(socket, :uploaded_files, &(&1 ++ file))}
+  end
+
+  def handle_event("change-tab", %{"tab" => tab}, socket) do
+    case tab do
+      "posts" ->
+        posts = Twitters.list_user_posts(socket.assigns.user.id)
+        {:noreply, socket |> assign(:active_tab, tab) |> assign(:posts, posts)}
+
+      "media" ->
+        {:noreply, socket |> assign(:active_tab, tab)}
+
+      _ ->
+        {:noreply, socket |> assign(:active_tab, tab)}
+    end
   end
 
   defp is_following?(follower_id, followed_id) do
