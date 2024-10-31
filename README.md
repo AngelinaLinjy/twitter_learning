@@ -1,4 +1,4 @@
-# AuthLearning
+# TwitterLearning
 
 To start your Phoenix server:
 
