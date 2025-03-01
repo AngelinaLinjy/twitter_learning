@@ -6,7 +6,18 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :auth_learning, AuthLearningWeb.Endpoint,
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [port: {:system, "PORT"}],
+  url: [scheme: "https", host: "boiling-basin-91497-a6c8b811fb72.herokuapp.com", port: 443],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
+
+# Configure your database
+config :auth_learning, AuthLearning.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: true
 
 # Configures Swoosh API Client
 config :swoosh, api_client: Swoosh.ApiClient.Finch, finch_name: AuthLearning.Finch
