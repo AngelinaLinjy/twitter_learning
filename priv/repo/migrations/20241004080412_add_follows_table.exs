@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.AddFollowsTable do
+defmodule Twitter.Repo.Migrations.AddFollowsTable do
   use Ecto.Migration
 
   def change do

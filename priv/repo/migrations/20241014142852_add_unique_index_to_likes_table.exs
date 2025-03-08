@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.AddUniqueIndexToLikesTable do
+defmodule Twitter.Repo.Migrations.AddUniqueIndexToLikesTable do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.RemoveReferencesOfPostIdOnUsersTable do
+defmodule Twitter.Repo.Migrations.RemoveReferencesOfPostIdOnUsersTable do
   use Ecto.Migration
 
   def change do

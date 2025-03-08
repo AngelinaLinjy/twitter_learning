@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.CreateLikes do
+defmodule Twitter.Repo.Migrations.CreateLikes do
   use Ecto.Migration
 
   def change do

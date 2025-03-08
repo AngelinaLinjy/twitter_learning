@@ -1,9 +1,9 @@
-defmodule AuthLearning.MixProject do
+defmodule Twitter.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :auth_learning,
+      app: :twitter,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule AuthLearning.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {AuthLearning.Application, []},
+      mod: {Twitter.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -75,10 +75,10 @@ defmodule AuthLearning.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind auth_learning", "esbuild auth_learning"],
+      "assets.build": ["tailwind twitter", "esbuild twitter"],
       "assets.deploy": [
-        "tailwind auth_learning --minify",
-        "esbuild auth_learning --minify",
+        "tailwind twitter --minify",
+        "esbuild twitter --minify",
         "phx.digest"
       ]
     ]
