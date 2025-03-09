@@ -80,9 +80,10 @@ defmodule AuthLearning.UserAccount do
   end
 
   def registrate_user(attrs) do
-    {:ok, binary_data} = File.read(attrs[:avatar].path)
-    attrs = Map.put(attrs, :avatar, binary_data)
-
+    if attrs[:avatar] do
+      {:ok, binary_data} = File.read(attrs[:avatar].path)
+      Map.put(attrs, :avatar, binary_data)
+    end
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
