@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.AddCommentsTable do
+defmodule Twitter.Repo.Migrations.AddCommentsTable do
   use Ecto.Migration
 
   def change do

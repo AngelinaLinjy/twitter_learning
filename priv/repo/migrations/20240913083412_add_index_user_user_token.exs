@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.AddIndexUserUserToken do
+defmodule Twitter.Repo.Migrations.AddIndexUserUserToken do
   use Ecto.Migration
 
   def change do

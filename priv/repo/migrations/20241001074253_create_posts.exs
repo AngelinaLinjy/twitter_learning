@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.CreatePosts do
+defmodule Twitter.Repo.Migrations.CreatePosts do
   use Ecto.Migration
 
   def change do

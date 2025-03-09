@@ -1,0 +1,37 @@
+<div class="bg-black text-white">
+  <div class="max-w-2xl mx-auto">
+    <div class="border-b border-gray-800">
+      <.live_component
+        module={TwitterWeb.PostLive.FormComponent}
+        id={:new_post_home_page}
+        action={:new}
+        post={%Twitter.Twitters.Post{}}
+        current_user={@current_user}
+        patch={~p"/posts"}
+      />
+    </div>
+
+    <div id="timeline">
+      <%= for {id, post} <- @streams.posts do %>
+        <.live_component
+          module={TwitterWeb.PostLive.PostComponent}
+          id={id}
+          post={post}
+          current_user={@current_user}
+        />
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<.modal :if={@live_action in [:new, :edit]} id="post-modal" show on_cancel={JS.push("cancel")}>
+  <.live_component
+    module={TwitterWeb.PostLive.FormComponent}
+    id={@post.id || :new}
+    title={@page_title}
+    action={@live_action}
+    post={@post}
+    current_user={@current_user}
+    patch={~p"/posts"}
+  />
+</.modal>

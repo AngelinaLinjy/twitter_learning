@@ -1,7 +1,7 @@
-defmodule AuthLearning.TwittersFixtures do
+defmodule Twitter.TwittersFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `AuthLearning.Twitters` context.
+  entities via the `Twitter.Twitters` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule AuthLearning.TwittersFixtures do
         body: "some body",
         subject: "some subject"
       })
-      |> AuthLearning.Twitters.create_post()
+      |> Twitter.Twitters.create_post()
 
     post
   end

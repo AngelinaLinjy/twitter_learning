@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :auth_learning,
-  ecto_repos: [AuthLearning.Repo],
+config :twitter,
+  ecto_repos: [Twitter.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :auth_learning, AuthLearningWeb.Endpoint,
+config :twitter, TwitterWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: AuthLearningWeb.ErrorHTML, json: AuthLearningWeb.ErrorJSON],
+    formats: [html: TwitterWeb.ErrorHTML, json: TwitterWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: AuthLearning.PubSub,
+  pubsub_server: Twitter.PubSub,
   live_view: [signing_salt: "dAkl+xms"]
 
 # Configures the mailer
@@ -29,12 +29,12 @@ config :auth_learning, AuthLearningWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :auth_learning, AuthLearning.Mailer, adapter: Swoosh.Adapters.Local
+config :twitter, Twitter.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  auth_learning: [
+  twitter: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  auth_learning: [
+  twitter: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css

@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.AddImageToPosts do
+defmodule Twitter.Repo.Migrations.AddImageToPosts do
   use Ecto.Migration
 
   def change do

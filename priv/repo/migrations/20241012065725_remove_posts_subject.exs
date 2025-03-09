@@ -1,4 +1,4 @@
-defmodule AuthLearning.Repo.Migrations.RemovePostsSubject do
+defmodule Twitter.Repo.Migrations.RemovePostsSubject do
   use Ecto.Migration
 
   def change do
