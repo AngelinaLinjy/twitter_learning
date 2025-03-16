@@ -13,7 +13,8 @@ config :auth_learning,
 
 # Configures the endpoint
 config :auth_learning, AuthLearningWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "localhost", scheme: "http", port: "4000"],
+  server: true,
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: AuthLearningWeb.ErrorHTML, json: AuthLearningWeb.ErrorJSON],
