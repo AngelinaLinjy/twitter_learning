@@ -45,12 +45,12 @@ if config_env() == :prod do
       """
 
   host = System.get_env("PHX_HOST") || "angieonline.info"
-  port = String.to_integer(System.get_env("PORT") || "443")
+  port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :auth_learning, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :auth_learning, AuthLearningWeb.Endpoint,
-    url: [host: host, port: port, scheme: "http"],
+    url: [host: host, port: 80, scheme: "http"],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
