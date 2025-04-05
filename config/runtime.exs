@@ -50,7 +50,6 @@ if config_env() == :prod do
   config :auth_learning, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :auth_learning, AuthLearningWeb.Endpoint,
-    force_ssl: [hsts: true],
     url: [host: host, port: port, scheme: "https"],
     http: [
       # Enable IPv6 and bind on all interfaces.
