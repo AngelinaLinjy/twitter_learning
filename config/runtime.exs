@@ -17,9 +17,6 @@ import Config
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if config_env() == :prod do
-  host = System.get_env("PHX_HOST") || "angieonline.info"
-  port = String.to_integer(System.get_env("PORT") || "443")
-
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """
