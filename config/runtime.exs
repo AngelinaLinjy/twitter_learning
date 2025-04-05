@@ -47,12 +47,13 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  host = System.get_env("PHX_HOST") || "angieonline.info"
+  port = String.to_integer(System.get_env("PORT") || "443")
 
   config :auth_learning, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :auth_learning, AuthLearningWeb.Endpoint,
+    force_ssl: [hsts: true],
     url: [host: host, port: port, scheme: "https"],
     http: [
       # Enable IPv6 and bind on all interfaces.
