@@ -32,7 +32,7 @@ jobs:
         run: |
           mix assets.deploy
           
-          if [ ! -d "_build/prod/priv/static" ]; then
+          if [ ! -d "priv/static" ]; then
               echo "Assets compilation failed"
               exit 1
           fi
