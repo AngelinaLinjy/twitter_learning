@@ -48,4 +48,4 @@ jobs:
             _build/prod/rel/auth_learning/releases/*/*.tar.gz
             _build/prod/priv/static/**/*
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
