@@ -9,27 +9,13 @@ env:
   MIX_ENV: prod
 
 jobs:
-  release:
+  mix-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
           token: ${{ secrets.TWITTER_TOKEN }}
-      
-      - name: Update version in mix.exs
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          sed -i "s/version: \".*\"/version: \"$VERSION\"/" mix.exs
-          cat mix.exs
-          
-      - name: Commit version update
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add mix.exs
-          git commit -m "Update version to $VERSION"
-          git push origin main
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
@@ -64,3 +50,50 @@ jobs:
             priv/static/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
+
+  version_management:
+    needs: mix-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest version from git tags
+        id: get_version
+        run: |
+          VERSION=$(git describe --tags --abbrev=0)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Current version in version_management: $VERSION"
+
+      - name: Set version as environment variable
+        run: |
+          echo "Version from get_version step: ${{ steps.get_version.outputs.version }}"
+          echo "Version from environment: $VERSION"
+
+  deploy:
+    needs: version_management
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "Deploying version: ${{ steps.version_management.outputs.version }}"
+            echo "export VERSION=${{ steps.version_management.outputs.version }}" >> ~/.bashrc
+            source ~/.bashrc
+            echo "Version in bashrc: $VERSION"
+            
+            cd twitter_learning/
+            sudo systemctl stop auth_learning
+            git pull origin main
+            MIX_ENV=prod mix release
+            sudo systemctl start auth_learning

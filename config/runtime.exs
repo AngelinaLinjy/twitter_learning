@@ -119,4 +119,7 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+
+  # The version is set by GitHub Actions
+  config :auth_learning, :version, version: System.get_env("VERSION", "0.1.0")
 end
