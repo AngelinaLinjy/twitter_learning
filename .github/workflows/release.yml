@@ -6,6 +6,7 @@ on:
 
 env:
   MIX_ENV: prod
+  GH_TOKEN: ${{ secrets.TWITTER_TOKEN }}
 
 jobs:
   mix-release:
