@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Update version in mix.exs
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          sed -i "s/version: \".*\"/version: \"$VERSION\"/" mix.exs
+          cat mix.exs
+
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
