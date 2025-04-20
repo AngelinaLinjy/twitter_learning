@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [ '*' ]
+    tags:
+      - 'v*'
 
 env:
   MIX_ENV: prod
@@ -42,14 +43,14 @@ jobs:
         run: |
           yes | mix release
 
-      # - name: Upload release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     files: |
-      #       _build/prod/auth_learning*.tar.gz
-      #       priv/static/**/*
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
+      - name: Upload release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            _build/prod/auth_learning*.tar.gz
+            priv/static/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
 
   version_management:
     needs: mix-release
@@ -76,11 +77,6 @@ jobs:
           gh variable set VERSION -e angies-twitter --body "$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Current version in version_management: $VERSION"
-
-      # - name: Set version as environment variable
-      #   run: |
-      #     echo "Version from get_version step: ${{ steps.get_version.outputs.version }}"
-      #     echo "Version from environment: $VERSION"
 
   deploy:
     needs: [mix-release, version_management]
