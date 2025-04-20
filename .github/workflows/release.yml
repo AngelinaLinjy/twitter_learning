@@ -50,29 +50,37 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
 
-  # version_management:
-  #   needs: mix-release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
+  version_management:
+    needs: mix-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-  #     - name: Get latest version from git tags
-  #       id: get_version
-  #       run: |
-  #         VERSION=$(git describe --tags --abbrev=0)
-  #         echo "version=$VERSION" >> $GITHUB_OUTPUT
-  #         echo "VERSION=$VERSION" >> $GITHUB_ENV
-  #         echo "Current version in version_management: $VERSION"
+      - name: Install GitHub CLI
+        run: |
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh
 
-  #     - name: Set version as environment variable
-  #       run: |
-  #         echo "Version from get_version step: ${{ steps.get_version.outputs.version }}"
-  #         echo "Version from environment: $VERSION"
+      - name: Get latest version from git tags
+        id: get_version
+        run: |
+          # VERSION=$(git describe --tags --abbrev=0)
+          gh variable set VERSION -e angies-twitter -v "0.1.0"
+          # echo "version=$VERSION" >> $GITHUB_OUTPUT
+          # echo "VERSION=$VERSION" >> $GITHUB_ENV
+          # echo "Current version in version_management: $VERSION"
+
+      # - name: Set version as environment variable
+      #   run: |
+      #     echo "Version from get_version step: ${{ steps.get_version.outputs.version }}"
+      #     echo "Version from environment: $VERSION"
 
   deploy:
-    needs: mix-release
+    needs: [mix-release, version_management]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -86,8 +94,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            echo "Deploying version: ${{ steps.version_management.outputs.version }}"
-            echo "export VERSION=${{ steps.version_management.outputs.version }}" >> ~/.bashrc
+            echo "Deploying version: ${{ needs.version_management.outputs.version }}"
+            echo "export VERSION=${{ needs.version_management.outputs.version }}" >> ~/.bashrc
             source ~/.bashrc
             echo "Version in bashrc: $VERSION"
             
