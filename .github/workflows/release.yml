@@ -72,7 +72,7 @@ jobs:
   #         echo "Version from environment: $VERSION"
 
   deploy:
-    needs: version_management
+    needs: mix_release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
