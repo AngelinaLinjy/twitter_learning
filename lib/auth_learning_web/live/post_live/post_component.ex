@@ -14,8 +14,8 @@ defmodule AuthLearningWeb.PostLive.PostComponent do
     >
       <div class="flex">
         <div class="flex-shrink-0 mr-3">
-        <.link  navigate={~p"/user_profile/#{@post.user.id}"} >
-          <img src={"/user/avatar/#{@post.user.id}"} alt="avatar" class="w-12 h-12 rounded-full" />
+          <.link navigate={~p"/user_profile/#{@post.user.id}"}>
+            <img src={"/user/avatar/#{@post.user.id}"} alt="avatar" class="w-12 h-12 rounded-full" />
           </.link>
         </div>
         <div class="flex-grow">
