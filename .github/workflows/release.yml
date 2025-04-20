@@ -72,8 +72,7 @@ jobs:
           # VERSION=$(git describe --tags --abbrev=0)
           VERSION="0.1.0-2"
           gh variable set VERSION -e angies-twitter --body "$VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "Current version in version_management: $VERSION"
 
       # - name: Set version as environment variable
@@ -96,8 +95,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            echo "Deploying version: ${{ steps.version_management.outputs.version }}"
-            echo "export VERSION=${{ steps.version_management.outputs.version }}" >> ~/.bashrc
+            echo "Deploying version: ${{ needs.version_management.outputs.version }}"
+            echo "export VERSION=${{ needs.version_management.outputs.version }}" >> ~/.bashrc
             source ~/.bashrc
             echo "Version in bashrc: $VERSION"
             
