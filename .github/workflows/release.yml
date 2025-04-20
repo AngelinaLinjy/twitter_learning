@@ -39,7 +39,7 @@ jobs:
 
       - name: Build release
         run: |
-          mix release
+          yes | mix release
 
       # - name: Upload release
       #   uses: softprops/action-gh-release@v1
@@ -94,5 +94,5 @@ jobs:
             cd twitter_learning/
             sudo systemctl stop auth_learning
             git pull origin main
-            MIX_ENV=prod mix release
+            yes | MIX_ENV=prod mix release
             sudo systemctl start auth_learning
