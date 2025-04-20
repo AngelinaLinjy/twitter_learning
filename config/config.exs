@@ -61,7 +61,7 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :auth_learning, :version, version: "0.1.0"
+config :auth_learning, :version, version: System.get_env("VERSION", "0.1.0")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
