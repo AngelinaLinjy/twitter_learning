@@ -42,7 +42,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            _build/prod/rel/auth_learning*.tar.gz
+            _build/prod/auth_learning*.tar.gz
             priv/static/**/*
         env:
           GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
