@@ -70,10 +70,11 @@ jobs:
         id: get_version
         run: |
           # VERSION=$(git describe --tags --abbrev=0)
-          gh variable set VERSION -e angies-twitter --body "0.1.0-1"
-          # echo "version=$VERSION" >> $GITHUB_OUTPUT
-          # echo "VERSION=$VERSION" >> $GITHUB_ENV
-          # echo "Current version in version_management: $VERSION"
+          VERSION="0.1.0-2"
+          gh variable set VERSION -e angies-twitter --body "$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Current version in version_management: $VERSION"
 
       # - name: Set version as environment variable
       #   run: |
