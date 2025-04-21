@@ -43,7 +43,13 @@ jobs:
         run: |
           yes | mix release
 
-      - name: Upload release
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-package
+          path: _build/prod/auth_learning*.tar.gz
+
+      - name: Upload release to GitHub
         uses: softprops/action-gh-release@v1
         with:
           files: |
@@ -73,6 +79,7 @@ jobs:
         id: get_version
         run: |
           VERSION=$(git describe --tags --abbrev=0)
+          
           gh variable set VERSION -e angies-twitter --body "$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Current version in version_management: $VERSION"
@@ -81,9 +88,11 @@ jobs:
     needs: [mix-release, version_management]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Download release package
+        uses: actions/download-artifact@v4
         with:
-          ref: main
+          name: release-package
+          path: release
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -93,25 +102,32 @@ jobs:
           password: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             echo "Current version: ${{ needs.version_management.outputs.version }}"
-            
             cd twitter_learning/
             sudo systemctl stop auth_learning
-            git pull origin main
+
+      - name: Copy release package to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_SSH_KEY }}
+          source: "release/*"
+          target: "twitter_learning/_build/prod/"
+          strip_components: 1
+
+      - name: Extract and start service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd twitter_learning/_build/prod/
+            tar xzf auth_learning*.tar.gz -C ~/twitter_learning/_build/prod/rel/auth_learning
             
             # Update VERSION in systemd service file
             sudo sed -i '/Environment="VERSION=/c\Environment="VERSION=${{ needs.version_management.outputs.version }}"' /etc/systemd/system/auth_learning.service
             sudo systemctl daemon-reload
             
-            mix local.hex --force
-            mix local.rebar --force
-            mix deps.get --only prod
-            
-            mix assets.deploy
-            mix compile
-            
-            yes | MIX_ENV=prod mix release
-            
-            sudo systemctl stop auth_learning
             sudo systemctl start auth_learning
-            
             sudo systemctl status auth_learning | cat
