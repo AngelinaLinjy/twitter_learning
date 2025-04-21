@@ -48,14 +48,14 @@ jobs:
           name: release-package
           path: _build/prod/auth_learning*.tar.gz
 
-      - name: Upload release to GitHub
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            _build/prod/auth_learning*.tar.gz
-            priv/static/**/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
+      # - name: Upload release to GitHub
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: |
+      #       _build/prod/auth_learning*.tar.gz
+      #       priv/static/**/*
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.TWITTER_TOKEN }}
 
   version_management:
     needs: mix-release
