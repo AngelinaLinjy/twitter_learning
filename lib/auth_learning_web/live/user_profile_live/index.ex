@@ -18,11 +18,16 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
      |> assign(:user, user)
      |> assign(:follows, [])
      |> assign(:show_follows, false)
-     |> assign(:form, %{"avatar" => ""})
+     |> assign(:show_edit_profile, false)
+     |> assign(:user_form, to_form(%{"avatar" => ""}))
      |> assign(:active_tab, "posts")
      |> assign(:posts, posts)
      |> assign(:uploaded_files, [])
-     |> allow_upload(:avatar, accept: ~w(.jpg .png .jpeg), max_entries: 1)}
+     |> allow_upload(:avatar,
+       accept: ~w(.jpg .jpeg .png),
+       max_entries: 1,
+       max_file_size: 5_000_000
+     )}
   end
 
   @impl true
@@ -72,21 +77,31 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     {:noreply, socket |> assign(:show_follows, false) |> assign(:follows, [])}
   end
 
+  def handle_event("open-edit-profile", _params, socket) do
+    {:noreply,
+     socket
+     |> assign(:show_edit_profile, true)}
+  end
+
+  def handle_event("close-edit-profile", _params, socket) do
+    {:noreply, assign(socket, :show_edit_profile, false)}
+  end
+
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
   def handle_event("save", _params, socket) do
-    [file] =
+    user = socket.assigns.user
+
+    [avatar_binary] =
       consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        {:ok, binary_data} = File.read(path)
-
-        UserAccount.update(socket.assigns.user, %{avatar: binary_data})
-
-        {:ok, path}
+        File.read(path)
       end)
 
-    {:noreply, update(socket, :uploaded_files, &(&1 ++ file))}
+    user_params = %{avatar: avatar_binary}
+    user = UserAccount.update(user, user_params)
+    {:noreply, socket |> assign(:user, user) |> assign(:show_edit_profile, false)}
   end
 
   def handle_event("change-tab", %{"tab" => tab}, socket) do
