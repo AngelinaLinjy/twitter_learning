@@ -53,6 +53,8 @@ defmodule AuthLearningWeb.Router do
     post "/user/registration", UserRegistrationController, :create
 
     get "/user/avatar/:id", UserAvatarController, :index
+
+    delete "/user/log_out", UserLogOutController, :log_out
   end
 
   # Other scopes may use custom stacks.
