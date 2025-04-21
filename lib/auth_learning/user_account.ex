@@ -16,6 +16,10 @@ defmodule AuthLearning.UserAccount do
     |> Repo.get!(id)
   end
 
+  def change_user(%User{} = user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
   def is_following?(follower_id, followed_id) do
     query =
       from(f in Follows,

@@ -50,7 +50,10 @@
       </div>
     <% else %>
       <div class="flex justify-end">
-        <button class="px-4 py-2 bg-black text-white border border-gray-600 rounded-full font-bold">
+        <button
+          class="px-4 py-2 bg-black text-white border border-gray-600 rounded-full font-bold"
+          phx-click="open-edit-profile"
+        >
           Edit profile
         </button>
       </div>
@@ -270,6 +273,67 @@
       >
         Close
       </button>
+    </div>
+  </div>
+<% end %>
+
+<%= if @show_edit_profile do %>
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-black border border-gray-800 rounded-xl p-6 w-[480px]">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold">Edit Profile</h2>
+        <button phx-click="close-edit-profile" class="text-gray-500 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            >
+            </path>
+          </svg>
+        </button>
+      </div>
+
+      <form phx-submit="save" phx-change="validate">
+        <div class="mb-6">
+          <div class="flex items-center space-x-4 mb-4">
+            <img src={"/user/avatar/#{@user.id}"} class="w-16 h-16 rounded-full" />
+          </div>
+          <div class="mb-2">
+            <label class="block text-sm font-medium text-gray-400 mb-2">
+              Avatar
+            </label>
+            <div class="border-2 border-dashed border-gray-600 rounded-lg p-4 hover:border-gray-400 transition-colors">
+              <.live_file_input upload={@uploads.avatar} />
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <.input field={@user_form[:name]} type="text" label="Name" />
+        </div>
+
+        <div class="mb-6">
+          <.input field={@user_form[:email]} type="email" label="Email" />
+        </div>
+
+        <div class="flex justify-end space-x-3">
+          <button
+            type="button"
+            phx-click="close-edit-profile"
+            class="px-4 py-2 border border-gray-600 text-white rounded-full hover:bg-gray-900"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-4 py-2 bg-white text-black rounded-full font-bold hover:bg-gray-200"
+          >
+            Save
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 <% end %>
