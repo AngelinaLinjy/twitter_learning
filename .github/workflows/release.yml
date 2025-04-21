@@ -2,8 +2,7 @@ name: Release
 
 on:
   push:
-    tags:
-      - '**'
+    branches: [ '*' ]
 
 env:
   MIX_ENV: prod
