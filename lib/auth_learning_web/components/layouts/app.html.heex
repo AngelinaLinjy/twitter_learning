@@ -89,13 +89,36 @@
             />
           </.link>
         <% end %>
-        <div class="flex-grow">
-          <p class="font-bold"><%= if @current_user, do: @current_user.name, else: "" %></p>
-        </div>
-        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
-          </path>
-        </svg>
+        <%= if @current_user do %>
+          <div class="flex-grow">
+            <p class="font-bold"><%= @current_user.name %></p>
+          </div>
+          <div class="relative">
+            <button onclick="toggleUserMenu()" class="hover:bg-gray-800 rounded-full p-2">
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+                </path>
+              </svg>
+            </button>
+
+            <div
+              id="user-menu"
+              class="hidden absolute bottom-full right-0 mb-2 w-48 rounded-xl bg-black border border-gray-800 shadow-lg"
+            >
+              <.form :let={f} for={%{}} action={~p"/user/log_out"} method="delete" class="w-full">
+                <button
+                  id="user-menu-button"
+                  type="submit"
+                  class="w-full text-left px-4 py-3 text-sm text-white-500 hover:bg-gray-900 rounded-xl"
+                >
+                  <p class="font-bold">
+                    Log out @<%= if @current_user, do: @current_user.name, else: "" %>
+                  </p>
+                </button>
+              </.form>
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -137,8 +160,17 @@
 </div>
 
 <script>
-  function toggleDropdown() {
-    const dropdown = document.getElementById('dropdown-menu');
-    dropdown.hidden = !dropdown.hidden;
+  function toggleUserMenu() {
+    const menu = document.getElementById('user-menu');
+    menu.classList.toggle('hidden');
   }
+
+  document.addEventListener('click', function(event) {
+    const menu = document.getElementById('user-menu');
+    const button = event.target.closest('button');
+    
+    if (!menu.classList.contains('hidden') && !button && !menu.contains(event.target)) {
+      menu.classList.add('hidden');
+    }
+  });
 </script>
