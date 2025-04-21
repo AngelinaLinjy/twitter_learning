@@ -19,7 +19,7 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
      |> assign(:follows, [])
      |> assign(:show_follows, false)
      |> assign(:show_edit_profile, false)
-     |> assign(:user_form, to_form(%{"avatar" => ""}))
+     |> assign(:user_form, to_form(UserAccount.change_user(user)))
      |> assign(:active_tab, "posts")
      |> assign(:posts, posts)
      |> assign(:uploaded_files, [])
@@ -91,16 +91,24 @@ defmodule AuthLearningWeb.UserProfileLive.Index do
     {:noreply, socket}
   end
 
-  def handle_event("save", _params, socket) do
+  def handle_event("save", %{"user" => user_params}, socket) do
     user = socket.assigns.user
 
-    [avatar_binary] =
-      consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-        File.read(path)
-      end)
+    user_params =
+      case consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
+             File.read(path)
+           end) do
+        [avatar_binary] ->
+          user_params |> Map.put("avatar", avatar_binary)
 
-    user_params = %{avatar: avatar_binary}
-    user = UserAccount.update(user, user_params)
+        _ ->
+          user_params
+      end
+
+    IO.inspect(user_params, label: "asdfasdfasdf")
+
+    {:ok, user} = UserAccount.update(user, user_params)
+
     {:noreply, socket |> assign(:user, user) |> assign(:show_edit_profile, false)}
   end
 
